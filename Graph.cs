@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
-    class Graph
+    public class Graph
     {
         public List<Vertex> Vertices { get; set; }
 

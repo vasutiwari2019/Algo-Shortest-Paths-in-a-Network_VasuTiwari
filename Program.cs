@@ -11,79 +11,52 @@ namespace Algo_Shortest_Paths_in_a_Network
         {
             Console.WriteLine("Welcome to My Shortest Path Project,please run the command as in the read me file.");
 
-            Console.WriteLine("Please select from the below options");
-            Console.WriteLine("1. Building the graph");
-            Console.WriteLine("2. Add directed edge from headvertex to tailvertex");
-            Console.WriteLine("3. Delete the edge from headvertex to tailvertex");
-            Console.WriteLine("4. Mark the directed edge as “down” and therefore unavailable for use.");
-            Console.WriteLine("5. Mark the directed edge as “up”, and available for use");
-            Console.WriteLine("6. Mark the vertex as down");
-            Console.WriteLine("7. Mark the vertex as up again");
+            Operations operations = new Operations();
 
-            try
+            var option = operations.ChooseOption();
+
+            while (option != "100")
             {
-                var str = Console.ReadLine();
-
-                BuilGraph(str);
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine("Input not in correct order");
-            }
-        }
-
-        private static void BuilGraph(string str)
-        {
-            Vertex finalVertex = new Vertex();
-
-            string[] initializeFile = str.Split(" ");
-
-            if (initializeFile[0] == "graph" && initializeFile[1] != ".txt")
-            {
-
-                var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
-
-                var fileName = initializeFile[1].Split(".");
-
-                File.Move(existingFile[0], "../../../" + fileName[0] + ".txt");
-
-                string[] lines = File.ReadAllLines("../../../" + fileName[0] + ".txt");
-
-                foreach (var item in lines)
+                try
                 {
-                    string[] graph = item.Split(" ");
+                    switch (option)
+                    {
+                        case "1":
+                            Console.WriteLine("Enter in format, graph <filename>.txt");
+                            var inputCase1 = Console.ReadLine();
+                            operations.BuildGraph(inputCase1);
+                            break;
 
-                    var source_vertex = graph[0];
-                    var destination_vertex = graph[1];
-                    var edge_weight = float.Parse(graph[2]);
+                        case "2":
+                            Console.WriteLine("Enter in format, addedge tailvertex headvertex transmit time");
+                            var inputCase2 = Console.ReadLine();
+                            string[] input = inputCase2.Split(" ");
+                            operations.AddAnEdge(input[1], input[2], float.Parse(input[3]));
+                            break;
+                        case "8":
+                            Console.WriteLine("Enter in format, print");
+                            var inputCase8 = Console.ReadLine();
+                            if (inputCase8 == "print")
+                            {
+                                operations.PrintGraph();
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("print not entered");
+                            }
+                            break;
+                    }
 
-                    Edge edge1 = new Edge(source_vertex, destination_vertex, edge_weight);
-
-                    Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight);
-
-                    LinkedList<Edge> edges1 = new LinkedList<Edge>();
-
-                    LinkedList<Edge> edges2 = new LinkedList<Edge>();
-
-                    edges1.AddFirst(edge1);
-
-                    edges2.AddFirst(edge2);
-
-                    finalVertex.AddVertex(source_vertex, destination_vertex);
-
-                    finalVertex.AddEdge(edges1, edges2);
+                    option = operations.ChooseOption();
                 }
 
-                Graph finalGraph = new Graph(finalVertex.adj);
-
-                finalGraph.PrintGraph(finalGraph);
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Input not in correct order");
+                }
             }
 
-            else
-            {
-                throw new NotImplementedException();
-            }
+            Console.WriteLine("Thanks for your time, have a good day !!!");
         }
     }
 }
