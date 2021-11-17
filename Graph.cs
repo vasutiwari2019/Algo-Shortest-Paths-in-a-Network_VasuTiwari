@@ -14,16 +14,25 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public void PrintGraph(Graph g)
         {
-            foreach(var item in g.Vertices)
+            try
             {
-                Console.WriteLine(item.VertexName);
-
-                foreach(var edges in item.Edges)
+                foreach (var item in g.Vertices)
                 {
-                    Console.WriteLine(edges.To_Vertex+ " " +edges.Weight);
-                }
+                    Console.WriteLine(item.VertexName);
 
-                Console.WriteLine("\n");
+                    foreach (var edges in item.Edges)
+                    {
+                        Console.WriteLine(edges.To_Vertex + " " + edges.Weight);
+                    }
+
+                    Console.WriteLine("\n");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Graph not build properly" + ex);
+                Environment.Exit(0);
             }
         }
     }

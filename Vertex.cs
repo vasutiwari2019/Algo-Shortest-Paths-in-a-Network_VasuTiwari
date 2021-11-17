@@ -33,10 +33,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 adj[index].Edges.AddFirst(e1.Last.Value);
             }
 
-            if (adj.Any(x => x.VertexName == e2.Last().From_Vertex))
+            if (e2 != null)
             {
-                var index = adj.FindIndex(x => x.VertexName == e2.Last().From_Vertex);
-                adj[index].Edges.AddFirst(e2.Last.Value);
+                if (adj.Any(x => x.VertexName == e2.Last().From_Vertex))
+                {
+                    var index = adj.FindIndex(x => x.VertexName == e2.Last().From_Vertex);
+                    adj[index].Edges.AddFirst(e2.Last.Value);
+                }
             }
         }
 

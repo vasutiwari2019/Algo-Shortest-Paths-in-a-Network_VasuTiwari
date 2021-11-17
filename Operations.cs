@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
@@ -28,52 +27,61 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public void BuildGraph(string str)
         {
-            Vertex finalVertex = new Vertex();
-
-            string[] initializeFile = str.Split(" ");
-
-            if (initializeFile[0] == "graph" && initializeFile[1] != ".txt")
+            try
             {
+                Vertex finalVertex = new Vertex();
 
-                var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
+                string[] initializeFile = str.Split(" ");
 
-                var fileName = initializeFile[1].Split(".");
-
-                File.Move(existingFile[0], "../../../" + fileName[0] + ".txt");
-
-                string[] lines = File.ReadAllLines("../../../" + fileName[0] + ".txt");
-
-                foreach (var item in lines)
+                if (initializeFile[0] == "graph" && initializeFile[1] != ".txt")
                 {
-                    string[] graph = item.Split(" ");
 
-                    var source_vertex = graph[0];
-                    var destination_vertex = graph[1];
-                    var edge_weight = float.Parse(graph[2]);
+                    var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
 
-                    Edge edge1 = new Edge(source_vertex, destination_vertex, edge_weight);
+                    var fileName = initializeFile[1].Split(".");
 
-                    Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight);
+                    File.Move(existingFile[0], "../../../" + fileName[0] + ".txt");
 
-                    LinkedList<Edge> edges1 = new LinkedList<Edge>();
+                    string[] lines = File.ReadAllLines("../../../" + fileName[0] + ".txt");
 
-                    LinkedList<Edge> edges2 = new LinkedList<Edge>();
+                    foreach (var item in lines)
+                    {
+                        string[] graph = item.Split(" ");
 
-                    edges1.AddFirst(edge1);
+                        var source_vertex = graph[0];
+                        var destination_vertex = graph[1];
+                        var edge_weight = float.Parse(graph[2]);
 
-                    edges2.AddFirst(edge2);
+                        Edge edge1 = new Edge(source_vertex, destination_vertex, edge_weight);
 
-                    finalVertex.AddVertex(source_vertex, destination_vertex);
+                        Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight);
 
-                    finalVertex.AddEdge(edges1, edges2);
+                        LinkedList<Edge> edges1 = new LinkedList<Edge>();
+
+                        LinkedList<Edge> edges2 = new LinkedList<Edge>();
+
+                        edges1.AddFirst(edge1);
+
+                        edges2.AddFirst(edge2);
+
+                        finalVertex.AddVertex(source_vertex, destination_vertex);
+
+                        finalVertex.AddEdge(edges1, edges2);
+                    }
+
+                    FinalGraph = new Graph(finalVertex.adj);
                 }
 
-                FinalGraph = new Graph(finalVertex.adj);
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
 
-            else
+            catch (Exception ex)
             {
-                throw new NotImplementedException();
+                Console.WriteLine("Graph not build properly");
+                Environment.Exit(0);
             }
         }
 
@@ -81,32 +89,71 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             var flag = false;
 
-            var line = headvertex + " " + tailvertex + " " + weight;
+            //var line = headvertex + " " + tailvertex + " " + weight;
 
-            var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
+            //var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
 
-            List<string> lines = new List<string>(File.ReadAllLines(existingFile[0]));
+            //List<string> lines = new List<string>(File.ReadAllLines(existingFile[0]));
 
-            for (int i = 0; i < lines.Count; i++)
+            //for (int i = 0; i < lines.Count; i++)
+            //{
+            //    string[] linesRead = lines[i].Split(" ");
+
+            //    if (linesRead[0] == headvertex && linesRead[1] == tailvertex)
+            //    {
+            //        lines[i] = line;
+            //        flag = true;
+            //    }
+            //}
+
+            //if (!flag)
+            //    lines.Add(line);
+
+            //File.WriteAllLines(existingFile[0], lines);
+
+            foreach(var item in FinalGraph.Vertices)
             {
-                string[] linesRead = lines[i].Split(" ");
-
-                if (linesRead[0] == headvertex && linesRead[1] == tailvertex)
+                foreach(var vertices in item.Edges)
                 {
-                    lines[i] = line;
-                    flag = true;
+                    if(headvertex == vertices.From_Vertex && tailvertex == vertices.To_Vertex)
+                    {
+                        vertices.Weight = weight;
+                        flag = true;
+                    }
                 }
             }
 
-            if (!flag)
-                lines.Add(line);
+            if(!flag)
+            {
+                var vertex = new Vertex();
 
-            File.WriteAllLines(existingFile[0], lines);
+                var edges = new LinkedList<Edge>();
+
+                var edge = new Edge(headvertex, tailvertex, weight);
+
+                vertex.AddVertex(headvertex, tailvertex);
+
+                edges.AddFirst(edge);
+
+                vertex.AddEdge(edges, null);
+
+                FinalGraph.Vertices.Add(vertex.adj[0]);
+            }
+
         }
 
-        public void PrintGraph()
+        public void Print()
         {
-            FinalGraph.PrintGraph(FinalGraph);
+            try
+            {
+                FinalGraph.PrintGraph(FinalGraph);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Graph not build properly" + ex);
+                Environment.Exit(0);
+            }
         }
     }
 }

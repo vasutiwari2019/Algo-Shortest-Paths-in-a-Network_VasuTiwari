@@ -1,7 +1,5 @@
 ﻿using Algo_Shortest_Paths_in_a_Network_VasuTiwari;
 using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Algo_Shortest_Paths_in_a_Network
 {
@@ -15,7 +13,7 @@ namespace Algo_Shortest_Paths_in_a_Network
 
             var option = operations.ChooseOption();
 
-            while (option != "100")
+            while (option != null)
             {
                 try
                 {
@@ -33,16 +31,32 @@ namespace Algo_Shortest_Paths_in_a_Network
                             string[] input = inputCase2.Split(" ");
                             operations.AddAnEdge(input[1], input[2], float.Parse(input[3]));
                             break;
+
                         case "8":
-                            Console.WriteLine("Enter in format, print");
+                            Console.WriteLine("Enter in format, print, Please note before calling print, you should first build the graph");
                             var inputCase8 = Console.ReadLine();
                             if (inputCase8 == "print")
                             {
-                                operations.PrintGraph();
+                                operations.Print();
                             }
                             else
                             {
                                 throw new InvalidOperationException("print not entered");
+                            }
+                            break;
+
+                        case "100":
+                            Console.WriteLine("Enter quit to exit");
+                            var inputCase100 = Console.ReadLine();
+                            if (inputCase100 == "quit")
+                            {
+                                Console.WriteLine("Thanks for your time, have a good day !!!");
+                                Environment.Exit(0);
+                            }
+
+                            else
+                            {
+                                throw new InvalidOperationException("exit not entered");
                             }
                             break;
                     }
@@ -55,8 +69,6 @@ namespace Algo_Shortest_Paths_in_a_Network
                     Console.WriteLine("Input not in correct order");
                 }
             }
-
-            Console.WriteLine("Thanks for your time, have a good day !!!");
         }
     }
 }
