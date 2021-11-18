@@ -39,6 +39,20 @@ namespace Algo_Shortest_Paths_in_a_Network
                             operations.DeleteAnEdge(inputFor3[1], inputFor3[2]);
                             break;
 
+                        case "4":
+                            Console.WriteLine("Enter in format,edgedown tailvertex headvertex");
+                            var inputCase4 = Console.ReadLine();
+                            string[] inputFor4 = inputCase4.Split(" ");
+                            operations.EdgeDown(inputFor4[1], inputFor4[2]);
+                            break;
+
+                        case "5":
+                            Console.WriteLine("Enter in format,edgeup tailvertex headvertex");
+                            var inputCase5 = Console.ReadLine();
+                            string[] inputFor5 = inputCase5.Split(" ");
+                            operations.EdgeUp(inputFor5[1], inputFor5[2]);
+                            break;
+
                         case "8":
                             Console.WriteLine("Enter in format, print, Please note before calling print, you should first build the graph");
                             var inputCase8 = Console.ReadLine();
