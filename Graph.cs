@@ -22,6 +22,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                     foreach (var edges in item.Edges)
                     {
+                        if (edges.Weight != -1 && edges.edgeUp != false)
                         Console.WriteLine(edges.To_Vertex + " " + edges.Weight);
                     }
 

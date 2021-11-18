@@ -28,8 +28,15 @@ namespace Algo_Shortest_Paths_in_a_Network
                         case "2":
                             Console.WriteLine("Enter in format, addedge tailvertex headvertex transmit time");
                             var inputCase2 = Console.ReadLine();
-                            string[] input = inputCase2.Split(" ");
-                            operations.AddAnEdge(input[1], input[2], float.Parse(input[3]));
+                            string[] inputFor2 = inputCase2.Split(" ");
+                            operations.AddAnEdge(inputFor2[1], inputFor2[2], float.Parse(inputFor2[3]));
+                            break;
+
+                        case "3":
+                            Console.WriteLine("Enter in format,deleteedge tailvertex headvertex");
+                            var inputCase3 = Console.ReadLine();
+                            string[] inputFor3 = inputCase3.Split(" ");
+                            operations.DeleteAnEdge(inputFor3[1], inputFor3[2]);
                             break;
 
                         case "8":

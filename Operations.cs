@@ -52,9 +52,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                         var destination_vertex = graph[1];
                         var edge_weight = float.Parse(graph[2]);
 
-                        Edge edge1 = new Edge(source_vertex, destination_vertex, edge_weight);
+                        Edge edge1 = new Edge(source_vertex, destination_vertex, edge_weight, true);
 
-                        Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight);
+                        Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight, true);
 
                         LinkedList<Edge> edges1 = new LinkedList<Edge>();
 
@@ -129,7 +129,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                 var edges = new LinkedList<Edge>();
 
-                var edge = new Edge(headvertex, tailvertex, weight);
+                var edge = new Edge(headvertex, tailvertex, weight, true);
 
                 vertex.AddVertex(headvertex, tailvertex);
 
@@ -140,6 +140,48 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 FinalGraph.Vertices.Add(vertex.adj[0]);
             }
 
+        }
+
+        public void DeleteAnEdge(string tailvertex, string headvertex)
+        {
+            foreach (var item in FinalGraph.Vertices)
+            {
+                foreach (var vertices in item.Edges)
+                {
+                    if (headvertex == vertices.From_Vertex && tailvertex == vertices.To_Vertex)
+                    {
+                        vertices.Weight = -1;
+                    }
+                }
+            }
+        }
+
+        public void EdgeDown(string tailvertex, string headvertex)
+        {
+            foreach (var item in FinalGraph.Vertices)
+            {
+                foreach (var vertices in item.Edges)
+                {
+                    if (headvertex == vertices.From_Vertex && tailvertex == vertices.To_Vertex)
+                    {
+                        vertices.edgeUp = false;
+                    }
+                }
+            }
+        }
+
+        public void EdgeUp(string tailvertex, string headvertex)
+        {
+            foreach (var item in FinalGraph.Vertices)
+            {
+                foreach (var vertices in item.Edges)
+                {
+                    if (headvertex == vertices.From_Vertex && tailvertex == vertices.To_Vertex)
+                    {
+                        vertices.edgeUp = true;
+                    }
+                }
+            }
         }
 
         public void Print()
