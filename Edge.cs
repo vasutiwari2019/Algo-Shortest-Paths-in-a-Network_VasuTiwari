@@ -5,7 +5,6 @@
         public string From_Vertex { get; set; }
         public string To_Vertex { get; set; }
         public float Weight { get; set; }
-
         public bool edgeUp { get; set; }
 
         public Edge(string From_Vertex, string To_Vertex, float Weight, bool edgeUp)

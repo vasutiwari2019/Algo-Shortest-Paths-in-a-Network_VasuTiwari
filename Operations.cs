@@ -184,6 +184,40 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
+        public void VertexDown(string vertex)
+        {
+            foreach (var item in FinalGraph.Vertices)
+            {
+                if (item.VertexName == vertex)
+                    item.VertexUp = false;
+
+                foreach (var vertices in item.Edges)
+                {
+                    if (vertex == vertices.From_Vertex || vertex == vertices.To_Vertex)
+                    {
+                        vertices.edgeUp = false;
+                    }
+                }
+            }
+        }
+
+        public void VertexUp(string vertex)
+        {
+            foreach (var item in FinalGraph.Vertices)
+            {
+                if (item.VertexName == vertex)
+                    item.VertexUp = true;
+
+                foreach (var vertices in item.Edges)
+                {
+                    if (vertex == vertices.From_Vertex || vertex == vertices.To_Vertex)
+                    {
+                        vertices.edgeUp = true;
+                    }
+                }
+            }
+        }
+
         public void Print()
         {
             try

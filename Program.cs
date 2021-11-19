@@ -53,6 +53,20 @@ namespace Algo_Shortest_Paths_in_a_Network
                             operations.EdgeUp(inputFor5[1], inputFor5[2]);
                             break;
 
+                        case "6":
+                            Console.WriteLine("Enter in format,vertexdown vertex");
+                            var inputCase6 = Console.ReadLine();
+                            string[] inputFor6 = inputCase6.Split(" ");
+                            operations.VertexDown(inputFor6[1]);
+                            break;
+
+                        case "7":
+                            Console.WriteLine("Enter in format,vertexup vertex");
+                            var inputCase7 = Console.ReadLine();
+                            string[] inputFor7 = inputCase7.Split(" ");
+                            operations.VertexUp(inputFor7[1]);
+                            break;
+
                         case "8":
                             Console.WriteLine("Enter in format, print, Please note before calling print, you should first build the graph");
                             var inputCase8 = Console.ReadLine();

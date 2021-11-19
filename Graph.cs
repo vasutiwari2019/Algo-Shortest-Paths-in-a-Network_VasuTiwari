@@ -18,15 +18,15 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var item in g.Vertices)
                 {
-                    Console.WriteLine(item.VertexName);
-
-                    foreach (var edges in item.Edges)
+                    if (item.VertexUp)
                     {
-                        if (edges.Weight != -1 && edges.edgeUp != false)
-                        Console.WriteLine(edges.To_Vertex + " " + edges.Weight);
+                        Console.WriteLine(item.VertexName);
+                        foreach (var edges in item.Edges)
+                        {
+                            if (edges.Weight != -1 && edges.edgeUp)
+                                Console.WriteLine(" " + edges.To_Vertex + " " + edges.Weight);
+                        }
                     }
-
-                    Console.WriteLine("\n");
                 }
             }
 
