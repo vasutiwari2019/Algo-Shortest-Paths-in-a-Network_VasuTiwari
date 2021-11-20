@@ -10,23 +10,22 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         public LinkedList<Edge> Edges { get; set; }
 
         public List<Vertex> adj;
-
-        public bool VertexUp { get; set; }
+        public string VertexStatus { get; set; }
 
         public Vertex()
         {
             VertexName = "";
             Edges = new LinkedList<Edge>();
             adj = new List<Vertex>();
-            VertexUp = true;
+            VertexStatus = "UP";
         }
 
-        public Vertex(string VertexName, LinkedList<Edge> Edges, bool VertexUp)
+        public Vertex(string VertexName, LinkedList<Edge> Edges, string VertexStatus)
         {
             this.VertexName = VertexName;
             this.Edges = Edges;
             adj = new List<Vertex>();
-            this.VertexUp = VertexUp;
+            this.VertexStatus = VertexStatus;
         }
 
         public void AddEdge(LinkedList<Edge> e1, LinkedList<Edge> e2)
@@ -51,13 +50,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             if(!adj.Any(x=> x.VertexName == source))
             {
-                Vertex v = new Vertex(source, new LinkedList<Edge>(), true);
+                Vertex v = new Vertex(source, new LinkedList<Edge>(), "UP");
                 adj.Add(v);
             }
 
             if(!adj.Any(x => x.VertexName == destination))
             {
-                Vertex v = new Vertex(destination, new LinkedList<Edge>(), true);
+                Vertex v = new Vertex(destination, new LinkedList<Edge>(), "UP");
                 adj.Add(v);
             }
         }

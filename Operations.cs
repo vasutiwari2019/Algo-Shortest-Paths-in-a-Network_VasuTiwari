@@ -189,7 +189,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             foreach (var item in FinalGraph.Vertices)
             {
                 if (item.VertexName == vertex)
-                    item.VertexUp = false;
+                    item.VertexStatus = "DOWN";
             }
         }
 
@@ -198,7 +198,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             foreach (var item in FinalGraph.Vertices)
             {
                 if (item.VertexName == vertex)
-                    item.VertexUp = true;
+                    item.VertexStatus = "UP";
             }
         }
 
