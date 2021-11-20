@@ -113,11 +113,11 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             foreach(var item in FinalGraph.Vertices)
             {
-                foreach(var vertices in item.Edges)
+                foreach(var edge in item.Edges)
                 {
-                    if(headvertex == vertices.From_Vertex && tailvertex == vertices.To_Vertex)
+                    if(headvertex == edge.To_Vertex && tailvertex == edge.From_Vertex)
                     {
-                        vertices.Weight = weight;
+                        edge.Weight = weight;
                         flag = true;
                     }
                 }
@@ -129,9 +129,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                 var edges = new LinkedList<Edge>();
 
-                var edge = new Edge(headvertex, tailvertex, weight, "UP");
+                var edge = new Edge(tailvertex, headvertex, weight, "UP");
 
-                vertex.AddVertex(headvertex, tailvertex);
+                vertex.AddVertex(tailvertex, headvertex);
 
                 edges.AddFirst(edge);
 
@@ -148,7 +148,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var vertices in item.Edges)
                 {
-                    if (headvertex == vertices.From_Vertex && tailvertex == vertices.To_Vertex)
+                    if (headvertex == vertices.To_Vertex && tailvertex == vertices.From_Vertex)
                     {
                         vertices.Weight = -1;
                     }
@@ -162,7 +162,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var edge in item.Edges)
                 {
-                    if (headvertex == edge.From_Vertex && tailvertex == edge.To_Vertex)
+                    if (headvertex == edge.To_Vertex && tailvertex == edge.From_Vertex)
                     {
                         edge.EdgeStatus = "DOWN";
                     }
@@ -176,7 +176,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var edge in item.Edges)
                 {
-                    if (headvertex == edge.From_Vertex && tailvertex == edge.To_Vertex)
+                    if (headvertex == edge.To_Vertex && tailvertex == edge.From_Vertex)
                     {
                         edge.EdgeStatus = "UP";
                     }
