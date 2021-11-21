@@ -7,23 +7,6 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
     public class Operations
     {
         public Graph FinalGraph { get; set; }
-        public string ChooseOption()
-        {
-            Console.WriteLine("Please select from the below options");
-            Console.WriteLine("1. Building the graph");
-            Console.WriteLine("2. Add directed edge from headvertex to tailvertex");
-            Console.WriteLine("3. Delete the edge from headvertex to tailvertex");
-            Console.WriteLine("4. Mark the directed edge as “down” and therefore unavailable for use.");
-            Console.WriteLine("5. Mark the directed edge as “up”, and available for use");
-            Console.WriteLine("6. Mark the vertex as down");
-            Console.WriteLine("7. Mark the vertex as up again");
-            Console.WriteLine("8. Print the Graph");
-            Console.WriteLine("100. To Exit");
-
-            var option = Console.ReadLine();
-
-            return option;
-        }
 
         public void BuildGraph(string str)
         {
@@ -31,14 +14,14 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 Vertex finalVertex = new Vertex();
 
-                string[] initializeFile = str.Split(" ");
+                string[] initializeFile = str?.Split(" ");
 
                 if (initializeFile[0] == "graph" && initializeFile[1] != ".txt")
                 {
 
                     var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
 
-                    var fileName = initializeFile[1].Split(".");
+                    var fileName = initializeFile[1]?.Split(".");
 
                     File.Move(existingFile[0], "../../../" + fileName[0] + ".txt");
 
@@ -46,7 +29,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                     foreach (var item in lines)
                     {
-                        string[] graph = item.Split(" ");
+                        string[] graph = item?.Split(" ");
 
                         var source_vertex = graph[0];
                         var destination_vertex = graph[1];
@@ -60,16 +43,16 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                         LinkedList<Edge> edges2 = new LinkedList<Edge>();
 
-                        edges1.AddFirst(edge1);
+                        edges1?.AddFirst(edge1);
 
-                        edges2.AddFirst(edge2);
+                        edges2?.AddFirst(edge2);
 
-                        finalVertex.AddVertex(source_vertex, destination_vertex);
+                        finalVertex?.AddVertex(source_vertex, destination_vertex);
 
-                        finalVertex.AddEdge(edges1, edges2);
+                        finalVertex?.AddEdge(edges1, edges2);
                     }
 
-                    FinalGraph = new Graph(finalVertex.adj);
+                    FinalGraph = new Graph(finalVertex?.adj);
                 }
 
                 else
@@ -80,7 +63,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             catch (Exception ex)
             {
-                Console.WriteLine("Graph not build properly");
+                Console.WriteLine("Input not in order for BuildGraph" + ex);
                 Environment.Exit(0);
             }
         }
@@ -88,117 +71,142 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         public void AddAnEdge(string tailvertex, string headvertex, float weight)
         {
             var flag = false;
-
-            //var line = headvertex + " " + tailvertex + " " + weight;
-
-            //var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
-
-            //List<string> lines = new List<string>(File.ReadAllLines(existingFile[0]));
-
-            //for (int i = 0; i < lines.Count; i++)
-            //{
-            //    string[] linesRead = lines[i].Split(" ");
-
-            //    if (linesRead[0] == headvertex && linesRead[1] == tailvertex)
-            //    {
-            //        lines[i] = line;
-            //        flag = true;
-            //    }
-            //}
-
-            //if (!flag)
-            //    lines.Add(line);
-
-            //File.WriteAllLines(existingFile[0], lines);
-
-            foreach(var item in FinalGraph.Vertices)
+            try
             {
-                foreach(var edge in item.Edges)
+                foreach (var item in FinalGraph?.Vertices)
                 {
-                    if(headvertex == edge.To_Vertex && tailvertex == edge.From_Vertex)
+                    foreach (var edge in item?.Edges)
                     {
-                        edge.Weight = weight;
-                        flag = true;
+                        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
+                        {
+                            edge.Weight = weight;
+                            flag = true;
+                        }
                     }
+                }
+
+                if (!flag)
+                {
+                    var vertex = new Vertex();
+
+                    var edges = new LinkedList<Edge>();
+
+                    var edge = new Edge(tailvertex, headvertex, weight, "UP");
+
+                    vertex?.AddVertex(tailvertex, headvertex);
+
+                    edges?.AddFirst(edge);
+
+                    vertex?.AddEdge(edges, null);
+
+                    FinalGraph?.Vertices?.Add(vertex?.adj[0]);
                 }
             }
 
-            if(!flag)
+            catch(Exception ex)
             {
-                var vertex = new Vertex();
-
-                var edges = new LinkedList<Edge>();
-
-                var edge = new Edge(tailvertex, headvertex, weight, "UP");
-
-                vertex.AddVertex(tailvertex, headvertex);
-
-                edges.AddFirst(edge);
-
-                vertex.AddEdge(edges, null);
-
-                FinalGraph.Vertices.Add(vertex.adj[0]);
+                Console.WriteLine("Input not in order for AddAnEdge" + ex);
             }
 
         }
 
         public void DeleteAnEdge(string tailvertex, string headvertex)
         {
-            foreach (var item in FinalGraph.Vertices)
+            try
             {
-                foreach (var vertices in item.Edges)
+                foreach (var item in FinalGraph?.Vertices)
                 {
-                    if (headvertex == vertices.To_Vertex && tailvertex == vertices.From_Vertex)
+                    foreach (var vertices in item.Edges)
                     {
-                        vertices.Weight = -1;
+                        if (headvertex == vertices?.To_Vertex && tailvertex == vertices?.From_Vertex)
+                        {
+                            vertices.Weight = -1;
+                        }
                     }
                 }
+            }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine("Input not in order for DeleteAnEdge" + ex);
             }
         }
 
         public void EdgeDown(string tailvertex, string headvertex)
         {
-            foreach (var item in FinalGraph.Vertices)
+            try
             {
-                foreach (var edge in item.Edges)
+                foreach (var item in FinalGraph?.Vertices)
                 {
-                    if (headvertex == edge.To_Vertex && tailvertex == edge.From_Vertex)
+                    foreach (var edge in item?.Edges)
                     {
-                        edge.EdgeStatus = "DOWN";
+                        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
+                        {
+                            edge.EdgeStatus = "DOWN";
+                        }
                     }
                 }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Input not in order for EdgeDown" + ex);
             }
         }
 
         public void EdgeUp(string tailvertex, string headvertex)
         {
-            foreach (var item in FinalGraph.Vertices)
+            try
             {
-                foreach (var edge in item.Edges)
+                foreach (var item in FinalGraph?.Vertices)
                 {
-                    if (headvertex == edge.To_Vertex && tailvertex == edge.From_Vertex)
+                    foreach (var edge in item?.Edges)
                     {
-                        edge.EdgeStatus = "UP";
+                        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
+                        {
+                            edge.EdgeStatus = "UP";
+                        }
                     }
                 }
+            }
+
+            catch (Exception ex) 
+            { 
+                Console.WriteLine("Input not in order for EdgeUp" + ex); 
             }
         }
 
         public void VertexDown(string vertex)
         {
-            foreach (var item in FinalGraph.Vertices)
+            try
             {
-                if (item.VertexName == vertex)
-                    item.VertexStatus = "DOWN";
+                foreach (var item in FinalGraph?.Vertices)
+                {
+                    if (item?.VertexName == vertex)
+                        item.VertexStatus = "DOWN";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Input not in order for VertexDown" + ex);
             }
         }
 
         public void VertexUp(string vertex)
         {
-            foreach (var item in FinalGraph.Vertices)
+            try
             {
-                if (item.VertexName == vertex)
-                    item.VertexStatus = "UP";
+                foreach (var item in FinalGraph?.Vertices)
+                {
+                    if (item?.VertexName == vertex)
+                        item.VertexStatus = "UP";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Input not in order for VertexUp" + ex);
             }
         }
 
@@ -206,13 +214,12 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             try
             {
-                FinalGraph.PrintGraph(FinalGraph);
+                FinalGraph?.PrintGraph(FinalGraph);
             }
 
             catch (Exception ex)
             {
-                Console.WriteLine("Graph not build properly" + ex);
-                Environment.Exit(0);
+                Console.WriteLine("Input not in order for Print" + ex);
             }
         }
     }
