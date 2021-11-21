@@ -18,12 +18,12 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var item in g?.Vertices)
                 {
-                    if (item?.VertexStatus == "UP")
+                    if (item?.VertexStatus == "UP" && item.Edges.Count!=0)
                     {
                         Console.WriteLine(item?.VertexName);
                     }
 
-                    else if (item?.VertexStatus == "DOWN")
+                    else if (item?.VertexStatus == "DOWN" && item.Edges.Count != 0)
                     {
                         Console.WriteLine(item?.VertexName + " " + item?.VertexStatus);
                     }

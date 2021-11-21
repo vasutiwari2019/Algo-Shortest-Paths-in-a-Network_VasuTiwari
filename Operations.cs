@@ -98,8 +98,10 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     edges?.AddFirst(edge);
 
                     vertex?.AddEdge(edges, null);
-
-                    FinalGraph?.Vertices?.Add(vertex?.adj[0]);
+                    foreach (var item in vertex?.adj)
+                    {
+                        FinalGraph?.Vertices?.Add(item);
+                    }
                 }
             }
 
@@ -225,48 +227,42 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public void Reachable()
         {
-            foreach (var item in FinalGraph?.Vertices)
+            List<Vertex> listOfVertices = new List<Vertex>(FinalGraph.Vertices);
+            foreach (var item in FinalGraph.Vertices)
             {
-                List<Vertex> dummyList = new List<Vertex>(FinalGraph?.Vertices);
-                dummyList.Remove(item);
-                if (item.VertexStatus == "UP")
+                if (item.VertexStatus == "UP" && item.Edges.Count != 0)
                 {
                     Console.WriteLine(item?.VertexName);
+
                     item.Visited = true;
-                }
 
-                ReachableVertex(dummyList);
+                    ReachableEdge(item.Edges, listOfVertices);
 
-                foreach(var vertices in FinalGraph?.Vertices)
-                {
-                    vertices.Visited = false;
+                    foreach (var vertices in FinalGraph.Vertices)
+                    {
+                        vertices.Visited = false;
+                    }
                 }
             }
         }
-        public void ReachableVertex(List<Vertex> vertex)
+
+        public void ReachableEdge(LinkedList<Edge> listOfEdges, List<Vertex> listOfVertices)
         {
-            List<Vertex> dummyList = new List<Vertex>(vertex);
-            foreach (var item in vertex)
+            foreach(var edges in listOfEdges)
             {
-                dummyList.Remove(item);
-
-                if (item.VertexStatus == "UP" && item.Visited == false)
+                foreach(var vertices in listOfVertices)
                 {
-                    Console.WriteLine("  " + item.VertexName);
-                    item.Visited = true;
+                    if (edges.To_Vertex == vertices.VertexName && vertices.Visited != true && vertices.VertexStatus != "DOWN" && edges.EdgeStatus != "DOWN")
+                    {
+                        Console.WriteLine("  " + edges.To_Vertex);
+
+                        vertices.Visited = true;
+
+                        ReachableEdge(vertices.Edges, listOfVertices);
+                    }
                 }
-
-                ReachableVertex(dummyList);
             }
         }
-
-        public void ReachableEdge(LinkedList<Edge> Edges)
-        {
-            foreach(var item in Edges)
-            {
-                if (item.EdgeStatus == "UP")
-                    Console.WriteLine("  " + item.To_Vertex);
-            }
-        }
+        
     }
 }
