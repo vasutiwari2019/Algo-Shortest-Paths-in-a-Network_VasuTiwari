@@ -53,6 +53,10 @@ namespace Algo_Shortest_Paths_in_a_Network
                             operations.Print();
                             break;
 
+                        case "reachable":
+                            operations.Reachable();
+                            break;
+
                         case "quit":
                             Environment.Exit(0);
                             break;

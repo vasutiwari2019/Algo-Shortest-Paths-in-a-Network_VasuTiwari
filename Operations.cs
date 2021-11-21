@@ -222,5 +222,51 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 Console.WriteLine("Input not in order for Print" + ex);
             }
         }
+
+        public void Reachable()
+        {
+            foreach (var item in FinalGraph?.Vertices)
+            {
+                List<Vertex> dummyList = new List<Vertex>(FinalGraph?.Vertices);
+                dummyList.Remove(item);
+                if (item.VertexStatus == "UP")
+                {
+                    Console.WriteLine(item?.VertexName);
+                    item.Visited = true;
+                }
+
+                ReachableVertex(dummyList);
+
+                foreach(var vertices in FinalGraph?.Vertices)
+                {
+                    vertices.Visited = false;
+                }
+            }
+        }
+        public void ReachableVertex(List<Vertex> vertex)
+        {
+            List<Vertex> dummyList = new List<Vertex>(vertex);
+            foreach (var item in vertex)
+            {
+                dummyList.Remove(item);
+
+                if (item.VertexStatus == "UP" && item.Visited == false)
+                {
+                    Console.WriteLine("  " + item.VertexName);
+                    item.Visited = true;
+                }
+
+                ReachableVertex(dummyList);
+            }
+        }
+
+        public void ReachableEdge(LinkedList<Edge> Edges)
+        {
+            foreach(var item in Edges)
+            {
+                if (item.EdgeStatus == "UP")
+                    Console.WriteLine("  " + item.To_Vertex);
+            }
+        }
     }
 }
