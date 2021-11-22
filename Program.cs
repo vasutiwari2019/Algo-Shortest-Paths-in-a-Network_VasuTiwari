@@ -57,6 +57,10 @@ namespace Algo_Shortest_Paths_in_a_Network
                             operations.Reachable();
                             break;
 
+                        case "path":
+                            operations.Path(inputCase[1], inputCase[2]);
+                            break;
+
                         case "quit":
                             Environment.Exit(0);
                             break;

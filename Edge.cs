@@ -1,6 +1,9 @@
-﻿namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
-    public class Edge
+    public class Edge : IComparable<Edge>
     {
         public string From_Vertex { get; set; }
         public string To_Vertex { get; set; }
@@ -13,6 +16,11 @@
             this.To_Vertex = To_Vertex;
             this.Weight = Weight;
             this.EdgeStatus = EdgeStatus;
+        }
+
+        public int CompareTo([AllowNull] Edge other)
+        {
+            return To_Vertex.CompareTo(other.To_Vertex);
         }
     }
 }

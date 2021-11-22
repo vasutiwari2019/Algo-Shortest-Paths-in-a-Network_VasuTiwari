@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
-    public class Vertex
+    public class Vertex : IComparable<Vertex>
     {
         public string VertexName { get; set; }
 
@@ -63,6 +65,11 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 Vertex v = new Vertex(destination, new LinkedList<Edge>(), "UP", false);
                 adj?.Add(v);
             }
+        }
+
+        public int CompareTo([AllowNull] Vertex other)
+        {
+            return VertexName.CompareTo(other.VertexName);            
         }
     }
 }

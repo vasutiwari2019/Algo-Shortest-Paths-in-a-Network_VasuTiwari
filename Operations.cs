@@ -300,6 +300,28 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
             }
         }
+
+        public void Path(string from_vertex, string to_vertex)
+        {
+            var cost = (float)0;
+            var newcost = (float)0;
+            var source_vertex = FinalGraph.Vertices.Find(x => x.VertexName == from_vertex);
+
+            var destination_vertex = new Vertex();
+
+            var priorityQueue = new PriorityQueue(source_vertex, FinalGraph);
+
+            while(destination_vertex.VertexName != to_vertex)
+            {
+                priorityQueue.BuildQueue();
+
+                (destination_vertex, newcost, priorityQueue.PriorityQueue_List) = priorityQueue.Return_MinCost_Vertex(cost);
+
+                newcost = newcost + cost;
+                cost = newcost;
+            }
+
+        }
         
     }
 }
