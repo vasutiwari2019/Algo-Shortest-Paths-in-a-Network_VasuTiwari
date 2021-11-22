@@ -9,7 +9,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
     {
         public string VertexName { get; set; }
 
-        public LinkedList<Edge> Edges { get; set; }
+        public List<Edge> Edges { get; set; }
 
         public List<Vertex> adj;
         public string VertexStatus { get; set; }
@@ -19,13 +19,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         public Vertex()
         {
             VertexName = "";
-            Edges = new LinkedList<Edge>();
+            Edges = new List<Edge>();
             adj = new List<Vertex>();
             VertexStatus = "UP";
             Visited = false;
         }
 
-        public Vertex(string VertexName, LinkedList<Edge> Edges, string VertexStatus, bool Visited)
+        public Vertex(string VertexName, List<Edge> Edges, string VertexStatus, bool Visited)
         {
             this.VertexName = VertexName;
             this.Edges = Edges;
@@ -34,12 +34,12 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             this.Visited = Visited;
         }
 
-        public void AddEdge(LinkedList<Edge> e1, LinkedList<Edge> e2)
+        public void AddEdge(List<Edge> e1, List<Edge> e2)
         {
             if (adj.Any(x => x?.VertexName == e1?.Last()?.From_Vertex))
             {
                 var index = adj.FindIndex(x => x?.VertexName == e1?.Last()?.From_Vertex);
-                adj[index]?.Edges?.AddFirst(e1?.Last?.Value);
+                adj[index]?.Edges?.Add(e1?.Last());
             }
 
             if (e2 != null)
@@ -47,7 +47,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 if (adj.Any(x => x?.VertexName == e2?.Last()?.From_Vertex))
                 {
                     var index = adj.FindIndex(x => x?.VertexName == e2?.Last()?.From_Vertex);
-                    adj[index]?.Edges?.AddFirst(e2?.Last?.Value);
+                    adj[index]?.Edges?.Add(e2?.Last());
                 }
             }
         }
@@ -56,13 +56,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             if(!adj.Any(x => x?.VertexName == source))
             {
-                Vertex v = new Vertex(source, new LinkedList<Edge>(), "UP", false);
+                Vertex v = new Vertex(source, new List<Edge>(), "UP", false);
                 adj?.Add(v);
             }
 
             if(!adj.Any(x => x?.VertexName == destination))
             {
-                Vertex v = new Vertex(destination, new LinkedList<Edge>(), "UP", false);
+                Vertex v = new Vertex(destination, new List<Edge>(), "UP", false);
                 adj?.Add(v);
             }
         }

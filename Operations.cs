@@ -39,13 +39,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                         Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight, "UP");
 
-                        LinkedList<Edge> edges1 = new LinkedList<Edge>();
+                        List<Edge> edges1 = new List<Edge>();
 
-                        LinkedList<Edge> edges2 = new LinkedList<Edge>();
+                        List<Edge> edges2 = new List<Edge>();
 
-                        edges1?.AddFirst(edge1);
+                        edges1?.Add(edge1);
 
-                        edges2?.AddFirst(edge2);
+                        edges2?.Add(edge2);
 
                         finalVertex?.AddVertex(source_vertex, destination_vertex);
 
@@ -53,6 +53,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     }
 
                     FinalGraph = new Graph(finalVertex?.adj);
+
                 }
 
                 else
@@ -98,7 +99,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 if(myvar && !flag)
                 {
                     var tdum = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
-                    tdum.Edges.AddFirst(tedge);
+                    tdum.Edges.Add(tedge);
 
                     if (FinalGraph?.Vertices.Find(x => x.VertexName == headvertex) == null)
                     {
@@ -125,13 +126,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 {
                     var vertex = new Vertex();
 
-                    var edges = new LinkedList<Edge>();
+                    var edges = new List<Edge>();
 
                     var edge = new Edge(tailvertex, headvertex, weight, "UP");
 
                     vertex?.AddVertex(tailvertex, headvertex);
 
-                    edges?.AddFirst(edge);
+                    edges?.Add(edge);
 
                     vertex?.AddEdge(edges, null);
 
@@ -283,7 +284,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public void ReachableEdge(LinkedList<Edge> listOfEdges, List<Vertex> listOfVertices)
+        public void ReachableEdge(List<Edge> listOfEdges, List<Vertex> listOfVertices)
         {
             foreach(var edges in listOfEdges)
             {
@@ -321,6 +322,16 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 cost = newcost;
             }
 
+        }
+
+        public void Sort_Vertex_Edges()
+        {
+            FinalGraph.Vertices.Sort();
+
+            foreach (var vertex in FinalGraph.Vertices)
+            {
+                vertex.Edges.Sort();
+            }
         }
         
     }

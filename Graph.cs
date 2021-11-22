@@ -21,7 +21,6 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             try
             {
-                g.Vertices.Sort();
                 foreach (var item in g?.Vertices)
                 {
                     if (item?.VertexStatus == "UP" && item.Edges.Count!=0)
@@ -33,9 +32,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     {
                         Console.WriteLine(item?.VertexName + " " + item?.VertexStatus);
                     }
-                    List<Edge> edgedList = new List<Edge>(item.Edges);
-                    edgedList.Sort();
-                    foreach (var edges in edgedList)
+                    foreach (var edges in item.Edges)
                     {
                         if (edges?.Weight != -1 && edges?.EdgeStatus == "UP")
                             Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight);
