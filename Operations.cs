@@ -100,9 +100,12 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     var tdum = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
                     tdum.Edges.AddFirst(tedge);
 
-                    tdum.AddVertex(headvertex, tailvertex);
+                    if (FinalGraph?.Vertices.Find(x => x.VertexName == headvertex) == null)
+                    {
+                        tdum.AddVertex(headvertex, tailvertex);
 
-                    FinalGraph?.Vertices?.Add(tdum.adj[0]);
+                        FinalGraph?.Vertices?.Add(tdum.adj[0]);
+                    }
                 }
 
 
