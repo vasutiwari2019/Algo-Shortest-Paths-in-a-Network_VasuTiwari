@@ -7,6 +7,11 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
     {
         public List<Vertex> Vertices { get; set; }
 
+        public Graph()
+        {
+
+        }
+
         public Graph(List<Vertex> Vertices)
         {
             this.Vertices = Vertices;

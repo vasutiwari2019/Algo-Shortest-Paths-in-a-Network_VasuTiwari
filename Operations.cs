@@ -71,21 +71,54 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         public void AddAnEdge(string tailvertex, string headvertex, float weight)
         {
             var flag = false;
+
+            var tedge = new Edge(tailvertex, headvertex, weight, "UP");
+
+            var myvar = false;
+
             try
             {
                 foreach (var item in FinalGraph?.Vertices)
                 {
                     foreach (var edge in item?.Edges)
                     {
-                        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
+                        if(tailvertex == edge?.From_Vertex)
                         {
-                            edge.Weight = weight;
-                            flag = true;
+                            if(headvertex == edge?.To_Vertex)
+                            {
+                                edge.Weight = weight;
+                                flag = true;
+                            }
+
+                            myvar = true;
                         }
                     }
                 }
 
-                if (!flag)
+                if(myvar && !flag)
+                {
+                    var tdum = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
+                    tdum.Edges.AddFirst(tedge);
+
+                    tdum.AddVertex(headvertex, tailvertex);
+
+                    FinalGraph?.Vertices?.Add(tdum.adj[0]);
+                }
+
+
+                //foreach (var item in FinalGraph?.Vertices)
+                //{
+                //    foreach (var edge in item?.Edges)
+                //    {
+                //        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
+                //        {
+                //            edge.Weight = weight;
+                //            flag = true;
+                //        }
+                //    }
+                //}
+
+                else if (!myvar && !flag)
                 {
                     var vertex = new Vertex();
 
@@ -98,6 +131,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     edges?.AddFirst(edge);
 
                     vertex?.AddEdge(edges, null);
+
                     foreach (var item in vertex?.adj)
                     {
                         FinalGraph?.Vertices?.Add(item);

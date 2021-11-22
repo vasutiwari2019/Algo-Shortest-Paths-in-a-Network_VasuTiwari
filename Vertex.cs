@@ -52,7 +52,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public void AddVertex(string source, string destination)
         {
-            if(!adj.Any(x=> x?.VertexName == source))
+            if(!adj.Any(x => x?.VertexName == source))
             {
                 Vertex v = new Vertex(source, new LinkedList<Edge>(), "UP", false);
                 adj?.Add(v);
