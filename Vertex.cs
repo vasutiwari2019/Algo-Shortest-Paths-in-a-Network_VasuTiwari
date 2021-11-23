@@ -18,6 +18,8 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public bool Visited { get; set; }
 
+        public bool VertexExplored { get; set; }
+
         public Vertex()
         {
             VertexName = "";
@@ -25,6 +27,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             adj = new List<Vertex>();
             VertexStatus = "UP";
             Visited = false;
+            VertexExplored = false;
         }
 
         public Vertex(string VertexName, List<Edge> Edges, string VertexStatus, bool Visited)
@@ -34,6 +37,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             adj = new List<Vertex>();
             this.VertexStatus = VertexStatus;
             this.Visited = Visited;
+            VertexExplored = false;
         }
 
         public void AddEdge(List<Edge> e1, List<Edge> e2)

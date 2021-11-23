@@ -34,19 +34,48 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             var to_vertex = "";
             var cost = (float)0.0;
-            if (From_Vertex.VertexStatus == "UP")
+            if (From_Vertex.VertexStatus == "UP" && !From_Vertex.VertexExplored)
             {
                 foreach (var item in From_Vertex.Edges)
                 {
-                    if (item.EdgeStatus == "UP" && item.To_Vertex != previous_vertex)
+                    if (item.EdgeStatus == "UP" && item.To_Vertex != previous_vertex & !item.EdgeExplored)
+                    {
+                        cost = item.Weight + weight;
+                        to_vertex = item.To_Vertex;
+                        var tvertex = graph.Vertices.Find(x => x.VertexName == to_vertex);
+                        if (!tvertex.VertexExplored)
+                        {
+                            var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
+                            PriorityQueue_List.Add(tpqueu);
+                        }
+                        item.EdgeExplored = true;
+                    }
+                }
+
+                From_Vertex.VertexExplored = true;
+            }
+        }
+
+        public void BuildQueueInitial(float weight, string previous_vertex)
+        {
+            var to_vertex = "";
+            var cost = (float)0.0;
+            if (From_Vertex.VertexStatus == "UP" && !From_Vertex.VertexExplored)
+            {
+                foreach (var item in From_Vertex.Edges)
+                {
+                    if (item.EdgeStatus == "UP" && item.To_Vertex != previous_vertex & !item.EdgeExplored)
                     {
                         cost = item.Weight + weight;
                         to_vertex = item.To_Vertex;
                         var tvertex = graph.Vertices.Find(x => x.VertexName == to_vertex);
                         var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
                         PriorityQueue_List.Add(tpqueu);
+                        item.EdgeExplored = true;
                     }
                 }
+
+                From_Vertex.VertexExplored = true;
             }
         }
 
@@ -61,12 +90,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             mincost = findanycost.Min_Cost;
             foreach (var item in PriorityQueue_List)
             {
-                if(item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName && item.To_Vertex.VertexStatus !="DOWN")
+                if (item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName && item.To_Vertex.VertexStatus != "DOWN")
                 {
                     tvertex = item.To_Vertex;
                     mincost = item.Min_Cost;
                     dum_previous_vertex = item.From_Vertex;
                 }
+
             }
 
             tvertex.Parent_Vertex = dum_previous_vertex;

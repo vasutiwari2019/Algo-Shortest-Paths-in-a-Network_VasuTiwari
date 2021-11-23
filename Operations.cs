@@ -319,7 +319,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             var priorityQueue = new PriorityQueue(source_vertex, FinalGraph);
 
-            priorityQueue.BuildQueue((float)0.0, null);
+            priorityQueue.BuildQueueInitial((float)0.0, null);
 
             while (destination_vertex.VertexName != to_vertex)
             {
@@ -354,6 +354,15 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
 
             Console.Write("\n");
+
+
+            // Making all explored edges and vertices unexplored
+            foreach(var vertex in FinalGraph.Vertices)
+            {
+                vertex.VertexExplored = false;
+                foreach (var edge in vertex.Edges)
+                    edge.EdgeExplored = false;
+            }
         }
 
         public void Sort_Vertex_Edges()
