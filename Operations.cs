@@ -309,6 +309,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public void Path(string from_vertex, string to_vertex)
         {
+            bool nopath = false;
             var cost = (float)0;
             var newcost = (float)0;
             var previous_vertex = new Vertex();
@@ -323,6 +324,11 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             while (destination_vertex.VertexName != to_vertex)
             {
+                if(priorityQueue.PriorityQueue_List.Count == 0)
+                {
+                    nopath = true;
+                    break;
+                }
                 (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName);
 
                 var tempPriorityQueue = new PriorityQueue(destination_vertex, previous_vertex, FinalGraph);
@@ -335,33 +341,38 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
 
             }
-            List<string> printPath = new List<string>();
 
-            printPath.Add(newcost.ToString("0.00"));
-
-            while (destination_vertex.Parent_Vertex != null)
+            if (!nopath)
             {
+                List<string> printPath = new List<string>();
+
+                printPath.Add(newcost.ToString("0.00"));
+
+                while (destination_vertex.Parent_Vertex != null)
+                {
+                    printPath.Add(destination_vertex.VertexName);
+
+                    destination_vertex = destination_vertex.Parent_Vertex;
+                }
+
                 printPath.Add(destination_vertex.VertexName);
 
-                destination_vertex = destination_vertex.Parent_Vertex;
-            }
+                for (int i = printPath.Count - 1; i >= 0; i--)
+                {
+                    Console.Write(printPath[i] + " ");
+                }
 
-            printPath.Add(destination_vertex.VertexName);
-
-            for (int i = printPath.Count - 1; i >= 0; i--)
-            {
-                Console.Write(printPath[i] + " ");
-            }
-
-            Console.Write("\n");
+                Console.Write("\n");
 
 
-            // Making all explored edges and vertices unexplored
-            foreach (var vertex in FinalGraph.Vertices)
-            {
-                vertex.VertexExplored = false;
-                foreach (var edge in vertex.Edges)
-                    edge.EdgeExplored = false;
+                // Making all explored edges and vertices unexplored
+                foreach (var vertex in FinalGraph.Vertices)
+                {
+                    vertex.VertexExplored = false;
+                    vertex.Parent_Vertex = new Vertex();
+                    foreach (var edge in vertex.Edges)
+                        edge.EdgeExplored = false;
+                }
             }
         }
 

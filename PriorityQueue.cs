@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
@@ -55,11 +56,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                         cost = item.Weight + weight;
                         to_vertex = item.To_Vertex;
                         var tvertex = graph.Vertices.Find(x => x.VertexName == to_vertex);
-                        if (!tvertex.VertexExplored)
-                        {
-                            var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
-                            PriorityQueue_List.Add(tpqueu);
-                        }
+                        
+                        var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
+                        PriorityQueue_List.Add(tpqueu);
                         item.EdgeExplored = true;
                     }
                 }
@@ -102,7 +101,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             mincost = findanycost.Min_Cost;
             foreach (var item in PriorityQueue_List)
             {
-                if (item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName && item.To_Vertex.VertexStatus != "DOWN")
+                if (item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName && item.To_Vertex.VertexStatus != "DOWN" && !item.To_Vertex.VertexExplored)
                 {
                     tvertex = item.To_Vertex;
                     mincost = item.Min_Cost;
