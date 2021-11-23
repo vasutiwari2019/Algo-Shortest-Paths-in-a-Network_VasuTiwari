@@ -325,7 +325,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName);
 
-                var tempPriorityQueue = new PriorityQueue(destination_vertex, FinalGraph);
+                var tempPriorityQueue = new PriorityQueue(destination_vertex, previous_vertex, FinalGraph);
 
                 tempPriorityQueue.BuildQueue(newcost, previous_vertex.VertexName);
 

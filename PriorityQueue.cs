@@ -30,6 +30,17 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             PriorityQueue_List = new List<PriorityQueue>();
         }
 
+        public PriorityQueue(Vertex From_Vertex, Vertex To_Vertex, Graph graph)
+        {
+            this.From_Vertex = From_Vertex;
+
+            this.graph = graph;
+
+            this.To_Vertex = To_Vertex;
+
+            PriorityQueue_List = new List<PriorityQueue>();
+        }
+
         public void BuildQueue(float weight, string previous_vertex)
         {
             var to_vertex = "";
@@ -38,7 +49,8 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var item in From_Vertex.Edges)
                 {
-                    if (item.EdgeStatus == "UP" && item.To_Vertex != previous_vertex & !item.EdgeExplored)
+                    var dumVertex = graph.Vertices.Find(x => x.VertexName == item.To_Vertex);
+                    if (item.EdgeStatus == "UP" && item.To_Vertex != previous_vertex && !item.EdgeExplored && !dumVertex.VertexExplored)
                     {
                         cost = item.Weight + weight;
                         to_vertex = item.To_Vertex;
