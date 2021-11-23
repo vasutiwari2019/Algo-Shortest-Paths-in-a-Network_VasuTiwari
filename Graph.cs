@@ -23,7 +23,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var item in g?.Vertices)
                 {
-                    if (item?.VertexStatus == "UP" && item.Edges.Count!=0)
+                    if (item?.VertexStatus == "UP" && item.Edges.Count != 0)
                     {
                         Console.WriteLine(item?.VertexName);
                     }

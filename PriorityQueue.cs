@@ -91,7 +91,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public (Vertex,float, List<PriorityQueue>, Vertex) Return_MinCost_Vertex(string previous_vertex)
+        public (Vertex, float, List<PriorityQueue>, Vertex) Return_MinCost_Vertex(string previous_vertex)
         {
             var dum_previous_vertex = new Vertex();
             var mincost = (float)0;
@@ -114,7 +114,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             tvertex.Parent_Vertex = dum_previous_vertex;
 
             var dumVertex = PriorityQueue_List.Find(x => x.To_Vertex == tvertex);
-        
+
             PriorityQueue_List.Remove(dumVertex);
             return (tvertex, mincost, PriorityQueue_List, dum_previous_vertex);
         }

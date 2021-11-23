@@ -83,9 +83,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 {
                     foreach (var edge in item?.Edges)
                     {
-                        if(tailvertex == edge?.From_Vertex)
+                        if (tailvertex == edge?.From_Vertex)
                         {
-                            if(headvertex == edge?.To_Vertex)
+                            if (headvertex == edge?.To_Vertex)
                             {
                                 edge.Weight = weight;
                                 flag = true;
@@ -96,7 +96,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     }
                 }
 
-                if(myvar && !flag)
+                if (myvar && !flag)
                 {
                     var tdum = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
                     tdum.Edges.Add(tedge);
@@ -143,7 +143,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for AddAnEdge" + ex);
             }
@@ -171,7 +171,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 //}
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for DeleteAnEdge" + ex);
             }
@@ -215,9 +215,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
             }
 
-            catch (Exception ex) 
-            { 
-                Console.WriteLine("Input not in order for EdgeUp" + ex); 
+            catch (Exception ex)
+            {
+                Console.WriteLine("Input not in order for EdgeUp" + ex);
             }
         }
 
@@ -291,9 +291,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         public void ReachableEdge(List<Edge> listOfEdges, List<Vertex> listOfVertices)
         {
-            foreach(var edges in listOfEdges)
+            foreach (var edges in listOfEdges)
             {
-                foreach(var vertices in listOfVertices)
+                foreach (var vertices in listOfVertices)
                 {
                     if (edges.To_Vertex == vertices.VertexName && vertices.Visited != true && vertices.VertexStatus != "DOWN" && edges.EdgeStatus != "DOWN")
                     {
@@ -329,7 +329,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                 tempPriorityQueue.BuildQueue(newcost, previous_vertex.VertexName);
 
-                foreach(var item in tempPriorityQueue.PriorityQueue_List)
+                foreach (var item in tempPriorityQueue.PriorityQueue_List)
                 {
                     priorityQueue.PriorityQueue_List.Add(item);
                 }
@@ -339,7 +339,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             printPath.Add(newcost.ToString("0.00"));
 
-            while(destination_vertex.Parent_Vertex != null)
+            while (destination_vertex.Parent_Vertex != null)
             {
                 printPath.Add(destination_vertex.VertexName);
 
@@ -357,7 +357,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
 
             // Making all explored edges and vertices unexplored
-            foreach(var vertex in FinalGraph.Vertices)
+            foreach (var vertex in FinalGraph.Vertices)
             {
                 vertex.VertexExplored = false;
                 foreach (var edge in vertex.Edges)
@@ -374,6 +374,6 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 vertex.Edges.Sort();
             }
         }
-        
+
     }
 }
