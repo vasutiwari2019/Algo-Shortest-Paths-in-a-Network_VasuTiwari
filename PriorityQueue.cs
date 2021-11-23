@@ -69,6 +69,8 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
             }
 
+            tvertex.Parent_Vertex = dum_previous_vertex;
+
             var dumVertex = PriorityQueue_List.Find(x => x.To_Vertex == tvertex);
         
             PriorityQueue_List.Remove(dumVertex);

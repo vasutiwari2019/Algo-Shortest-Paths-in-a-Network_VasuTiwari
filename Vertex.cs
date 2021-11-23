@@ -9,6 +9,8 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
     {
         public string VertexName { get; set; }
 
+        public Vertex Parent_Vertex { get; set; }
+
         public List<Edge> Edges { get; set; }
 
         public List<Vertex> adj;

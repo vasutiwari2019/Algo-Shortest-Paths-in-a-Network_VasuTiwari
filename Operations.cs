@@ -313,13 +313,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             var newcost = (float)0;
             var previous_vertex = new Vertex();
 
-            Stack<Vertex> dumStack = new Stack<Vertex>();
-
             var source_vertex = FinalGraph.Vertices.Find(x => x.VertexName == from_vertex);
 
             var destination_vertex = new Vertex();
-
-            dumStack.Push(source_vertex);
 
             var priorityQueue = new PriorityQueue(source_vertex, FinalGraph);
 
@@ -338,31 +334,25 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     priorityQueue.PriorityQueue_List.Add(item);
                 }
 
-                if(dumStack.Peek() != previous_vertex)
-                {
-                    dumStack.Pop();                    
-                }
-
-                else
-                {
-                    dumStack.Push(destination_vertex);
-                }
-
             }
-
             List<string> printPath = new List<string>();
 
             printPath.Add(newcost.ToString("0.00"));
 
-            foreach(var stackItem in dumStack)
+            while(destination_vertex.Parent_Vertex != null)
             {
-                printPath.Add(stackItem.VertexName);
+                printPath.Add(destination_vertex.VertexName);
+
+                destination_vertex = destination_vertex.Parent_Vertex;
             }
+
+            printPath.Add(destination_vertex.VertexName);
 
             for (int i = printPath.Count - 1; i >= 0; i--)
             {
                 Console.Write(printPath[i] + " ");
             }
+
             Console.Write("\n");
         }
 
