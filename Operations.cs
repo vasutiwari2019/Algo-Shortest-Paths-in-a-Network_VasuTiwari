@@ -154,16 +154,21 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             try
             {
-                foreach (var item in FinalGraph?.Vertices)
-                {
-                    foreach (var vertices in item.Edges)
-                    {
-                        if (headvertex == vertices?.To_Vertex && tailvertex == vertices?.From_Vertex)
-                        {
-                            vertices.Weight = -1;
-                        }
-                    }
-                }
+                var vert = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
+
+                var deledge = vert.Edges.Find(x => x.To_Vertex == headvertex);
+
+                vert.Edges.Remove(deledge);
+                //foreach (var item in FinalGraph?.Vertices)
+                //{
+                //    foreach (var vertices in item.Edges)
+                //    {
+                //        if (headvertex == vertices?.To_Vertex && tailvertex == vertices?.From_Vertex)
+                //        {
+                //            vertices.Weight = -1;
+                //        }
+                //    }
+                //}
             }
 
             catch(Exception ex)
@@ -306,15 +311,15 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             var cost = (float)0;
             var newcost = (float)0;
-            var previous_vertex = "";
+            var previous_vertex = new Vertex();
 
             Stack<Vertex> dumStack = new Stack<Vertex>();
 
             var source_vertex = FinalGraph.Vertices.Find(x => x.VertexName == from_vertex);
 
-            dumStack.Push(source_vertex);
-
             var destination_vertex = new Vertex();
+
+            dumStack.Push(source_vertex);
 
             var priorityQueue = new PriorityQueue(source_vertex, FinalGraph);
 
@@ -322,26 +327,32 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             while (destination_vertex.VertexName != to_vertex)
             {
-                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex);
+                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName);
 
                 var tempPriorityQueue = new PriorityQueue(destination_vertex, FinalGraph);
 
-                tempPriorityQueue.BuildQueue(newcost, previous_vertex);
+                tempPriorityQueue.BuildQueue(newcost, previous_vertex.VertexName);
 
                 foreach(var item in tempPriorityQueue.PriorityQueue_List)
                 {
                     priorityQueue.PriorityQueue_List.Add(item);
                 }
 
-                if (dumStack.Peek().VertexName == previous_vertex)
-                    dumStack.Push(destination_vertex);
+                if(dumStack.Peek() != previous_vertex)
+                {
+                    dumStack.Pop();                    
+                }
+
                 else
-                    dumStack.Pop();
+                {
+                    dumStack.Push(destination_vertex);
+                }
+
             }
 
             List<string> printPath = new List<string>();
 
-            printPath.Add(newcost.ToString());
+            printPath.Add(newcost.ToString("0.00"));
 
             foreach(var stackItem in dumStack)
             {
@@ -350,9 +361,9 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             for (int i = printPath.Count - 1; i >= 0; i--)
             {
-                Console.Write(" " + printPath[i]);
+                Console.Write(printPath[i] + " ");
             }
-
+            Console.Write("\n");
         }
 
         public void Sort_Vertex_Edges()

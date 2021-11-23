@@ -34,40 +34,45 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             var to_vertex = "";
             var cost = (float)0.0;
-            foreach(var item in From_Vertex.Edges)
+            if (From_Vertex.VertexStatus == "UP")
             {
-                if (item.EdgeStatus == "UP" && item.To_Vertex !=previous_vertex)
+                foreach (var item in From_Vertex.Edges)
                 {
-                    cost = item.Weight + weight;
-                    to_vertex = item.To_Vertex;
-                    var tvertex = graph.Vertices.Find(x => x.VertexName == to_vertex);
-                    var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
-                    PriorityQueue_List.Add(tpqueu);
+                    if (item.EdgeStatus == "UP" && item.To_Vertex != previous_vertex)
+                    {
+                        cost = item.Weight + weight;
+                        to_vertex = item.To_Vertex;
+                        var tvertex = graph.Vertices.Find(x => x.VertexName == to_vertex);
+                        var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
+                        PriorityQueue_List.Add(tpqueu);
+                    }
                 }
             }
         }
 
-        public (Vertex,float, List<PriorityQueue>, string) Return_MinCost_Vertex(string previous_vertex)
+        public (Vertex,float, List<PriorityQueue>, Vertex) Return_MinCost_Vertex(string previous_vertex)
         {
-            var dum_previous_vertex = "";
+            var dum_previous_vertex = new Vertex();
             var mincost = (float)0;
             Vertex tvertex = new Vertex();
-            mincost = PriorityQueue_List[0].Min_Cost;
+
+            var findanycost = PriorityQueue_List.Find(x => x.To_Vertex.VertexStatus != "DOWN");
+
+            mincost = findanycost.Min_Cost;
             foreach (var item in PriorityQueue_List)
             {
-                if(item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName)
+                if(item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName && item.To_Vertex.VertexStatus !="DOWN")
                 {
                     tvertex = item.To_Vertex;
                     mincost = item.Min_Cost;
-                    dum_previous_vertex = item.From_Vertex.VertexName;
+                    dum_previous_vertex = item.From_Vertex;
                 }
             }
 
             var dumVertex = PriorityQueue_List.Find(x => x.To_Vertex == tvertex);
         
-            previous_vertex = dum_previous_vertex;
             PriorityQueue_List.Remove(dumVertex);
-            return (tvertex, mincost, PriorityQueue_List, previous_vertex);
+            return (tvertex, mincost, PriorityQueue_List, dum_previous_vertex);
         }
     }
 }
