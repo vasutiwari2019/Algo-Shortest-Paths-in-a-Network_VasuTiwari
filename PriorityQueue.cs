@@ -30,15 +30,15 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             PriorityQueue_List = new List<PriorityQueue>();
         }
 
-        public void BuildQueue()
+        public void BuildQueue(float weight, string previous_vertex)
         {
             var to_vertex = "";
             var cost = (float)0.0;
             foreach(var item in From_Vertex.Edges)
             {
-                if (item.EdgeStatus == "UP")
+                if (item.EdgeStatus == "UP" && item.To_Vertex !=previous_vertex)
                 {
-                    cost = item.Weight;
+                    cost = item.Weight + weight;
                     to_vertex = item.To_Vertex;
                     var tvertex = graph.Vertices.Find(x => x.VertexName == to_vertex);
                     var tpqueu = new PriorityQueue(From_Vertex, tvertex, cost);
@@ -47,24 +47,27 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public (Vertex,float, List<PriorityQueue>) Return_MinCost_Vertex(float newcost)
+        public (Vertex,float, List<PriorityQueue>, string) Return_MinCost_Vertex(string previous_vertex)
         {
+            var dum_previous_vertex = "";
             var mincost = (float)0;
             Vertex tvertex = new Vertex();
             mincost = PriorityQueue_List[0].Min_Cost;
             foreach (var item in PriorityQueue_List)
             {
-                if(item.Min_Cost <= mincost)
+                if(item.Min_Cost <= mincost && previous_vertex != item.To_Vertex.VertexName)
                 {
                     tvertex = item.To_Vertex;
                     mincost = item.Min_Cost;
+                    dum_previous_vertex = item.From_Vertex.VertexName;
                 }
             }
 
             var dumVertex = PriorityQueue_List.Find(x => x.To_Vertex == tvertex);
-
+        
+            previous_vertex = dum_previous_vertex;
             PriorityQueue_List.Remove(dumVertex);
-            return (tvertex, mincost + newcost, PriorityQueue_List);
+            return (tvertex, mincost, PriorityQueue_List, previous_vertex);
         }
     }
 }

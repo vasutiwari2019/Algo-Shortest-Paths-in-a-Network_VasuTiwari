@@ -306,20 +306,51 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         {
             var cost = (float)0;
             var newcost = (float)0;
+            var previous_vertex = "";
+
+            Stack<Vertex> dumStack = new Stack<Vertex>();
+
             var source_vertex = FinalGraph.Vertices.Find(x => x.VertexName == from_vertex);
+
+            dumStack.Push(source_vertex);
 
             var destination_vertex = new Vertex();
 
             var priorityQueue = new PriorityQueue(source_vertex, FinalGraph);
 
-            while(destination_vertex.VertexName != to_vertex)
+            priorityQueue.BuildQueue((float)0.0, null);
+
+            while (destination_vertex.VertexName != to_vertex)
             {
-                priorityQueue.BuildQueue();
+                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex);
 
-                (destination_vertex, newcost, priorityQueue.PriorityQueue_List) = priorityQueue.Return_MinCost_Vertex(cost);
+                var tempPriorityQueue = new PriorityQueue(destination_vertex, FinalGraph);
 
-                newcost = newcost + cost;
-                cost = newcost;
+                tempPriorityQueue.BuildQueue(newcost, previous_vertex);
+
+                foreach(var item in tempPriorityQueue.PriorityQueue_List)
+                {
+                    priorityQueue.PriorityQueue_List.Add(item);
+                }
+
+                if (dumStack.Peek().VertexName == previous_vertex)
+                    dumStack.Push(destination_vertex);
+                else
+                    dumStack.Pop();
+            }
+
+            List<string> printPath = new List<string>();
+
+            printPath.Add(newcost.ToString());
+
+            foreach(var stackItem in dumStack)
+            {
+                printPath.Add(stackItem.VertexName);
+            }
+
+            for (int i = printPath.Count - 1; i >= 0; i--)
+            {
+                Console.Write(" " + printPath[i]);
             }
 
         }
