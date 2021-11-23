@@ -23,7 +23,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 foreach (var item in g?.Vertices)
                 {
-                    if (item?.VertexStatus == "UP" && item.Edges.Count != 0)
+                    if (item?.VertexStatus == "UP")
                     {
                         Console.WriteLine(item?.VertexName);
                     }
@@ -32,12 +32,16 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     {
                         Console.WriteLine(item?.VertexName + " " + item?.VertexStatus);
                     }
-                    foreach (var edges in item.Edges)
+
+                    if (item.Edges.Count != 0)
                     {
-                        if (edges?.Weight != -1 && edges?.EdgeStatus == "UP")
-                            Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight);
-                        else if (edges?.Weight != -1 && edges?.EdgeStatus == "DOWN")
-                            Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight + " " + edges?.EdgeStatus);
+                        foreach (var edges in item?.Edges)
+                        {
+                            if (edges?.Weight != -1 && edges?.EdgeStatus == "UP")
+                                Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight);
+                            else if (edges?.Weight != -1 && edges?.EdgeStatus == "DOWN")
+                                Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight + " " + edges?.EdgeStatus);
+                        }
                     }
                 }
             }
