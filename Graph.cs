@@ -3,43 +3,53 @@ using System.Collections.Generic;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
+    // Graph class to store all the connected vertices and corresponding edges
     public class Graph
     {
+        #region Properties
+
+        // Vertices used to store all the vertices for a Graph
         public List<Vertex> Vertices { get; set; }
+        #endregion
 
-        public Graph()
-        {
-
-        }
-
+        #region Constructor
         public Graph(List<Vertex> Vertices)
         {
             this.Vertices = Vertices;
         }
+        #endregion
 
-        public void PrintGraph(Graph g)
+        #region Public Methods
+
+        // PrintGraph method used to print all the vertices and it's corresponding edges.
+        public void PrintGraph(Graph g) // O(V*E)                                                 
         {
             try
             {
-                foreach (var item in g?.Vertices)
+                foreach (var item in g?.Vertices) // O(V)
                 {
+                    // Printing only those vertices which are UP.
                     if (item?.VertexStatus == "UP")
                     {
                         Console.WriteLine(item?.VertexName);
                     }
 
-                    else if (item?.VertexStatus == "DOWN" && item.Edges.Count != 0)
+                    // Printing the down vertex along with it's status
+                    else if (item?.VertexStatus == "DOWN")
                     {
                         Console.WriteLine(item?.VertexName + " " + item?.VertexStatus);
                     }
 
                     if (item.Edges.Count != 0)
                     {
-                        foreach (var edges in item?.Edges)
+                        foreach (var edges in item?.Edges) // O(E)
                         {
-                            if (edges?.Weight != -1 && edges?.EdgeStatus == "UP")
+                            // Printing edge name and its weight only if it is UP
+                            if (edges?.EdgeStatus == "UP")
                                 Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight);
-                            else if (edges?.Weight != -1 && edges?.EdgeStatus == "DOWN")
+
+                            // Printing edge name it's weight and status, when edge is down.
+                            else if (edges?.EdgeStatus == "DOWN")
                                 Console.WriteLine("  " + edges?.To_Vertex + " " + edges?.Weight + " " + edges?.EdgeStatus);
                         }
                     }
@@ -52,5 +62,6 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 Environment.Exit(0);
             }
         }
+        #endregion
     }
 }
