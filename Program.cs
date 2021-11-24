@@ -27,7 +27,7 @@ namespace Algo_Shortest_Paths_in_a_Network
                             break;
 
                         case "addedge":
-                            operations.AddAnEdge(inputCase[1], inputCase[2], float.Parse(inputCase[3]));
+                            operations.AddAnEdgeNew(inputCase[1], inputCase[2], float.Parse(inputCase[3]));
                             operations.Sort_Vertex_Edges();
                             break;
 

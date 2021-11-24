@@ -35,21 +35,13 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                         var destination_vertex = graph[1];
                         var edge_weight = float.Parse(graph[2]);
 
-                        Edge edge1 = new Edge(source_vertex, destination_vertex, edge_weight, "UP");
+                        var edge1 = new Edge(source_vertex, destination_vertex, edge_weight, "UP");
 
-                        Edge edge2 = new Edge(destination_vertex, source_vertex, edge_weight, "UP");
-
-                        List<Edge> edges1 = new List<Edge>();
-
-                        List<Edge> edges2 = new List<Edge>();
-
-                        edges1?.Add(edge1);
-
-                        edges2?.Add(edge2);
+                        var edge2 = new Edge(destination_vertex, source_vertex, edge_weight, "UP");
 
                         finalVertex?.AddVertex(source_vertex, destination_vertex);
 
-                        finalVertex?.AddEdge(edges1, edges2);
+                        finalVertex?.AddEdge(edge1, edge2);
                     }
 
                     FinalGraph = new Graph(finalVertex?.adj);
@@ -109,32 +101,15 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     }
                 }
 
-
-                //foreach (var item in FinalGraph?.Vertices)
-                //{
-                //    foreach (var edge in item?.Edges)
-                //    {
-                //        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
-                //        {
-                //            edge.Weight = weight;
-                //            flag = true;
-                //        }
-                //    }
-                //}
-
                 else if (!myvar && !flag)
                 {
                     var vertex = new Vertex();
-
-                    var edges = new List<Edge>();
 
                     var edge = new Edge(tailvertex, headvertex, weight, "UP");
 
                     vertex?.AddVertex(tailvertex, headvertex);
 
-                    edges?.Add(edge);
-
-                    vertex?.AddEdge(edges, null);
+                    vertex?.AddEdge(edge, null);
 
                     foreach (var item in vertex?.adj)
                     {
@@ -148,6 +123,63 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 Console.WriteLine("Input not in order for AddAnEdge" + ex);
             }
 
+        }
+
+        public void AddAnEdgeNew(string tailvertex, string headvertex, float weight)
+        {
+            if (FinalGraph.Vertices.Find(x => x.VertexName == tailvertex) != null)
+            {
+                if (FinalGraph.Vertices.Find(x => x.VertexName == headvertex) != null)
+                {
+                    var from_vertex = FinalGraph.Vertices.Find(x => x.VertexName == tailvertex);
+
+                    var tail_vertex = FinalGraph.Vertices.Find(x => x.VertexName == headvertex);
+
+                    var dumedge = new Edge(tailvertex, headvertex, weight, "UP");
+
+                    var findEdge = from_vertex.Edges.Find(x => x.To_Vertex == tail_vertex.VertexName);
+
+                    if (findEdge != null)
+                    {
+                        findEdge.Weight = weight;
+                    }
+
+                    else
+                    {
+                        from_vertex.Edges.Add(dumedge);
+                    }
+                }
+
+                else
+                {
+                    var dumVertex = new Vertex();
+                    dumVertex.AddVertex(headvertex, null);
+                    var edge = new Edge(tailvertex, headvertex, weight, "UP");
+                    FinalGraph.Vertices.Add(dumVertex.adj[0]);
+                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge);
+                }
+            }
+
+            else
+            {
+                var dumVertex = new Vertex();
+                dumVertex.AddVertex(tailvertex, null);
+                FinalGraph.Vertices.Add(dumVertex.adj[0]);
+                if (FinalGraph.Vertices.Find(x => x.VertexName == headvertex) != null)
+                {
+                    var edge = new Edge(tailvertex, headvertex, weight, "UP");
+                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge);
+                }
+
+                else
+                {
+                    var dum2Vertex = new Vertex();
+                    dum2Vertex.AddVertex(headvertex, null);
+                    FinalGraph.Vertices.Add(dum2Vertex.adj[0]);
+                    var edge = new Edge(tailvertex, headvertex, weight, "UP");
+                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge);
+                }
+            }
         }
 
         public void DeleteAnEdge(string tailvertex, string headvertex)
@@ -324,7 +356,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
             while (destination_vertex.VertexName != to_vertex)
             {
-                if(priorityQueue.PriorityQueue_List.Count == 0)
+                if (priorityQueue.PriorityQueue_List.Count == 0)
                 {
                     nopath = true;
                     break;
