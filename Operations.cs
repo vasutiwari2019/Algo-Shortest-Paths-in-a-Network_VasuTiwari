@@ -264,7 +264,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                     ReachableEdge(item.Edges, listOfVertices); // O(V+E)
 
-                    foreach (var vertices in FinalGraph.Vertices)
+                    foreach (var vertices in FinalGraph.Vertices) // O(V)
                     {
                         vertices.Visited = false;
                     }
