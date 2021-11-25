@@ -3,13 +3,16 @@ using System;
 
 namespace Algo_Shortest_Paths_in_a_Network
 {
-    class Program
+    // Main class from execution begins
+    public class Program
     {
         static void Main(string[] args)
         {
             Operations operations = new Operations();
 
             Console.WriteLine("Welcome to My Shortest Path Project,please run the command as in the read me file.");
+
+            // Taking input from the use until quit.
 
             while (true)
             {
@@ -21,65 +24,75 @@ namespace Algo_Shortest_Paths_in_a_Network
                 {
                     switch (inputCase[0])
                     {
+                        // Case 1 used for building the graph from the file given.
                         case "graph":
                             operations.BuildGraph(input);
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 2 used for adding an adge to the graph.
                         case "addedge":
-                            operations.AddAnEdgeNew(inputCase[1], inputCase[2], float.Parse(inputCase[3]));
+                            operations.AddAnEdge(inputCase[1], inputCase[2], float.Parse(inputCase[3]));
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 3 used to delete an existing edge from the graph.
                         case "deleteedge":
                             operations.DeleteAnEdge(inputCase[1], inputCase[2]);
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 4 used to make an edge down.
                         case "edgedown":
                             operations.EdgeDown(inputCase[1], inputCase[2]);
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 5 used to make the edge up if it is down.
                         case "edgeup":
                             operations.EdgeUp(inputCase[1], inputCase[2]);
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 6 used to make the vertex down.
                         case "vertexdown":
                             operations.VertexDown(inputCase[1]);
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 7 used to make the vertex up.
                         case "vertexup":
                             operations.VertexUp(inputCase[1]);
                             operations.Sort_Vertex_Edges();
                             break;
 
+                        // Case 8 used to print the current configuration of the graph.
                         case "print":
                             operations.Sort_Vertex_Edges();
                             operations.Print();
                             break;
 
-                        case "reachable":
-                            operations.Sort_Vertex_Edges();
-                            operations.Reachable();
+                        // Case 9 used to print all the reachable vertices.
+                        case "reachable": //O(VlogV + v*(V+E))
+                            operations.Sort_Vertex(); // O(VlogV)
+                            operations.Reachable(); // O(V*(V+E))
                             break;
 
+                        // Case 10 used to print the path from source vertex to destination vertex.
                         case "path":
                             operations.Sort_Vertex_Edges();
                             operations.Path(inputCase[1], inputCase[2]);
                             break;
 
+                        // Case 11 used to exit from the program.
                         case "quit":
                             Environment.Exit(0);
                             break;
                     }
                 }
-
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Input not in correct order");
+                    Console.WriteLine("Input not in correct order" +ex);
                 }
             }
         }

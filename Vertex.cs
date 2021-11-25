@@ -35,7 +35,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         #region Constructor
         public Vertex()
         {
-            VertexName = "";
+            VertexName = null;
             Edges = new List<Edge>();
             adj = new List<Vertex>();
             VertexStatus = "UP";
@@ -57,12 +57,12 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
         #region Public Methods
 
         // AddEdge to add new edge from a given vertex to a given vertex.
-        public void AddEdge(Edge e1, Edge e2) // O(V)
+        public void AddEdge(Edge e1, Edge e2) // O(V*E)
         {
             // To add an edge from e1 -> e2
             if (adj.Any(x => x?.VertexName == e1?.From_Vertex)) // O(V)
             {
-                var index = adj.FindIndex(x => x?.VertexName == e1?.From_Vertex);
+                var index = adj.FindIndex(x => x?.VertexName == e1?.From_Vertex); // O(E)
                 adj[index]?.Edges?.Add(e1);
             }
 
@@ -71,17 +71,17 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             {
                 if (adj.Any(x => x?.VertexName == e2?.From_Vertex)) // O(V)
                 {
-                    var index = adj.FindIndex(x => x?.VertexName == e2?.From_Vertex);
+                    var index = adj.FindIndex(x => x?.VertexName == e2?.From_Vertex); // O(E)
                     adj[index]?.Edges?.Add(e2);
                 }
             }
         }
 
         // AddVertex to add a vertex.
-        public void AddVertex(string source, string destination)
+        public void AddVertex(string source, string destination) // O(V)
         {
             // Add the source vertex to the adj list.
-            if (!adj.Any(x => x?.VertexName == source))
+            if (!adj.Any(x => x?.VertexName == source)) // O(V)
             {
                 Vertex v = new Vertex(source, new List<Edge>(), "UP", false);
                 adj?.Add(v);
@@ -90,7 +90,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             if (destination != null)
             {
                 // Add the destination vertex to the adj list. Used when building the graph, we have undirected edges so both vertices will be added.
-                if (!adj.Any(x => x?.VertexName == destination))
+                if (!adj.Any(x => x?.VertexName == destination)) // O(V)
                 {
                     Vertex v = new Vertex(destination, new List<Edge>(), "UP", false);
                     adj?.Add(v);

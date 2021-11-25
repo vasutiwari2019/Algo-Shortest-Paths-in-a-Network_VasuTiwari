@@ -4,11 +4,18 @@ using System.IO;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
+    // Main Driver class of the program. Contains functions for all the tasks.
     public class Operations
     {
-        public Graph FinalGraph { get; set; }
+        #region Properties
 
-        public void BuildGraph(string str)
+        // Used to store the graph variable
+        public Graph FinalGraph { get; set; }
+        #endregion
+
+        #region Public Methods
+        // Build Graph method used to build the initial configuration from the .txt file.
+        public void BuildGraph(string str) // O(V*E)
         {
             try
             {
@@ -16,9 +23,10 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                 string[] initializeFile = str?.Split(" ");
 
+                // Logic for taking any .txt file in the current directory and renaming it to given file name.
+
                 if (initializeFile[0] == "graph" && initializeFile[1] != ".txt")
                 {
-
                     var existingFile = Directory.GetFiles("../../../", "*.txt", SearchOption.TopDirectoryOnly);
 
                     var fileName = initializeFile[1]?.Split(".");
@@ -39,21 +47,18 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                         var edge2 = new Edge(destination_vertex, source_vertex, edge_weight, "UP");
 
-                        finalVertex?.AddVertex(source_vertex, destination_vertex);
+                        finalVertex?.AddVertex(source_vertex, destination_vertex); // O(V)
 
-                        finalVertex?.AddEdge(edge1, edge2);
+                        finalVertex?.AddEdge(edge1, edge2); // O(V*E)
                     }
 
                     FinalGraph = new Graph(finalVertex?.adj);
-
                 }
-
                 else
                 {
                     throw new NotImplementedException();
                 }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for BuildGraph" + ex);
@@ -61,249 +66,194 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public void AddAnEdge(string tailvertex, string headvertex, float weight)
+        // AddAnEdge method used to add an edge from the tailvertex to headvertex
+        public void AddAnEdge(string tailvertex, string headvertex, float weight) // O(V+E)
         {
-            var flag = false;
-
-            var tedge = new Edge(tailvertex, headvertex, weight, "UP");
-
-            var myvar = false;
-
-            try
+            if (FinalGraph.Vertices.Find(x => x.VertexName == tailvertex) != null) // O(V)
             {
-                foreach (var item in FinalGraph?.Vertices)
+                if (FinalGraph.Vertices.Find(x => x.VertexName == headvertex) != null) // O(V)
                 {
-                    foreach (var edge in item?.Edges)
-                    {
-                        if (tailvertex == edge?.From_Vertex)
-                        {
-                            if (headvertex == edge?.To_Vertex)
-                            {
-                                edge.Weight = weight;
-                                flag = true;
-                            }
+                    var from_vertex = FinalGraph.Vertices.Find(x => x.VertexName == tailvertex); // O(V)
 
-                            myvar = true;
-                        }
-                    }
-                }
-
-                if (myvar && !flag)
-                {
-                    var tdum = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
-                    tdum.Edges.Add(tedge);
-
-                    if (FinalGraph?.Vertices.Find(x => x.VertexName == headvertex) == null)
-                    {
-                        tdum.AddVertex(headvertex, tailvertex);
-
-                        FinalGraph?.Vertices?.Add(tdum.adj[0]);
-                    }
-                }
-
-                else if (!myvar && !flag)
-                {
-                    var vertex = new Vertex();
-
-                    var edge = new Edge(tailvertex, headvertex, weight, "UP");
-
-                    vertex?.AddVertex(tailvertex, headvertex);
-
-                    vertex?.AddEdge(edge, null);
-
-                    foreach (var item in vertex?.adj)
-                    {
-                        FinalGraph?.Vertices?.Add(item);
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine("Input not in order for AddAnEdge" + ex);
-            }
-
-        }
-
-        public void AddAnEdgeNew(string tailvertex, string headvertex, float weight)
-        {
-            if (FinalGraph.Vertices.Find(x => x.VertexName == tailvertex) != null)
-            {
-                if (FinalGraph.Vertices.Find(x => x.VertexName == headvertex) != null)
-                {
-                    var from_vertex = FinalGraph.Vertices.Find(x => x.VertexName == tailvertex);
-
-                    var tail_vertex = FinalGraph.Vertices.Find(x => x.VertexName == headvertex);
+                    var tail_vertex = FinalGraph.Vertices.Find(x => x.VertexName == headvertex); // O(V)
 
                     var dumedge = new Edge(tailvertex, headvertex, weight, "UP");
 
-                    var findEdge = from_vertex.Edges.Find(x => x.To_Vertex == tail_vertex.VertexName);
+                    var findEdge = from_vertex.Edges.Find(x => x.To_Vertex == tail_vertex.VertexName); // O(E)
 
                     if (findEdge != null)
                     {
                         findEdge.Weight = weight;
                     }
-
                     else
                     {
                         from_vertex.Edges.Add(dumedge);
                     }
                 }
-
                 else
                 {
                     var dumVertex = new Vertex();
-                    dumVertex.AddVertex(headvertex, null);
+                    dumVertex.AddVertex(headvertex, null); // O(V)
                     var edge = new Edge(tailvertex, headvertex, weight, "UP");
                     FinalGraph.Vertices.Add(dumVertex.adj[0]);
-                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge);
+                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge); // O(V)
                 }
             }
-
             else
             {
                 var dumVertex = new Vertex();
-                dumVertex.AddVertex(tailvertex, null);
+                dumVertex.AddVertex(tailvertex, null); // O(V)
                 FinalGraph.Vertices.Add(dumVertex.adj[0]);
-                if (FinalGraph.Vertices.Find(x => x.VertexName == headvertex) != null)
+                if (FinalGraph.Vertices.Find(x => x.VertexName == headvertex) != null) // O(V)
                 {
                     var edge = new Edge(tailvertex, headvertex, weight, "UP");
-                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge);
+                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge); // O(V)
                 }
-
                 else
                 {
                     var dum2Vertex = new Vertex();
-                    dum2Vertex.AddVertex(headvertex, null);
+                    dum2Vertex.AddVertex(headvertex, null); // O(V)
                     FinalGraph.Vertices.Add(dum2Vertex.adj[0]);
                     var edge = new Edge(tailvertex, headvertex, weight, "UP");
-                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge);
+                    FinalGraph.Vertices.Find(x => x.VertexName == tailvertex).Edges.Add(edge); // O(V)
                 }
             }
         }
 
-        public void DeleteAnEdge(string tailvertex, string headvertex)
+        // DeleteAnEdge method used to delete an edge from the tailvertex to headvertex.
+        public void DeleteAnEdge(string tailvertex, string headvertex) // O(V+E)
         {
             try
             {
-                var vert = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex);
+                // Finding the vertex in the list
+                var vert = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex); // O(V)
 
-                var deledge = vert.Edges.Find(x => x.To_Vertex == headvertex);
+                // Finding the edge in the vertex
+                if (vert != null)
+                {
+                    var deledge = vert.Edges.Find(x => x.To_Vertex == headvertex); // O(E)
 
-                vert.Edges.Remove(deledge);
-                //foreach (var item in FinalGraph?.Vertices)
-                //{
-                //    foreach (var vertices in item.Edges)
-                //    {
-                //        if (headvertex == vertices?.To_Vertex && tailvertex == vertices?.From_Vertex)
-                //        {
-                //            vertices.Weight = -1;
-                //        }
-                //    }
-                //}
+                    if (deledge != null)
+                    {
+                        // Deleting the edge
+                        vert.Edges.Remove(deledge); // O(E)
+                    }
+                }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for DeleteAnEdge" + ex);
             }
         }
 
-        public void EdgeDown(string tailvertex, string headvertex)
+        // EdgeDown Method used to make the edge down.
+        public void EdgeDown(string tailvertex, string headvertex) // O(V+E)
         {
             try
             {
-                foreach (var item in FinalGraph?.Vertices)
+                // Finding the vertex in the list
+                var vert = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex); // O(V)
+
+                if (vert != null)
                 {
-                    foreach (var edge in item?.Edges)
+                    // Finding the edge in the vertex
+                    var edgeToBeDown = vert.Edges.Find(x => x.To_Vertex == headvertex); // O(E)
+
+                    if (edgeToBeDown != null)
                     {
-                        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
-                        {
-                            edge.EdgeStatus = "DOWN";
-                        }
+                        // Marking the edgedown
+                        edgeToBeDown.EdgeStatus = "DOWN";
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for EdgeDown" + ex);
             }
         }
 
-        public void EdgeUp(string tailvertex, string headvertex)
+        // EdgeUp Method used to make the edge down.
+        public void EdgeUp(string tailvertex, string headvertex) // O(V+E)
         {
             try
             {
-                foreach (var item in FinalGraph?.Vertices)
+                // Finding the vertex in the list
+                var vert = FinalGraph?.Vertices.Find(x => x.VertexName == tailvertex); // O(V)
+
+                if (vert != null)
                 {
-                    foreach (var edge in item?.Edges)
+                    // Finding the edge in the vertex
+                    var edgeToBeUP = vert.Edges.Find(x => x.To_Vertex == headvertex); // O(E)
+
+                    if (edgeToBeUP != null)
                     {
-                        if (headvertex == edge?.To_Vertex && tailvertex == edge?.From_Vertex)
-                        {
-                            edge.EdgeStatus = "UP";
-                        }
+                        // Marking the edgeup
+                        edgeToBeUP.EdgeStatus = "UP";
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for EdgeUp" + ex);
             }
         }
 
-        public void VertexDown(string vertex)
+        // VertexDown Method used to make the vertex down.
+        public void VertexDown(string vertex) // O(V)
         {
             try
             {
-                foreach (var item in FinalGraph?.Vertices)
+                // Finding the vertex in the list
+                foreach (var item in FinalGraph?.Vertices) // O(V)
                 {
                     if (item?.VertexName == vertex)
                         item.VertexStatus = "DOWN";
                 }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for VertexDown" + ex);
             }
         }
 
-        public void VertexUp(string vertex)
+        // VertexUp Method used to make the vertex up.
+        public void VertexUp(string vertex) // O(V)
         {
             try
             {
-                foreach (var item in FinalGraph?.Vertices)
+                // Finding the vertex in the list
+                foreach (var item in FinalGraph?.Vertices) // O(V)
                 {
                     if (item?.VertexName == vertex)
                         item.VertexStatus = "UP";
                 }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for VertexUp" + ex);
             }
         }
 
-        public void Print()
+        // Print Method to print the graph configuration
+        public void Print() // O(V*E)
         {
             try
             {
-                FinalGraph?.PrintGraph(FinalGraph);
+                FinalGraph?.PrintGraph(FinalGraph); // O(V*E)
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine("Input not in order for Print" + ex);
             }
         }
 
-        public void Reachable()
+        // Reachable Method to find all vertices which are reachable from given vertex.
+        // Using DFS to explore all vertices which are reachable.
+        // For doing DFS complexity will be O(V*(V+E)).
+        public void Reachable() // O(V(V+E))
         {
             List<Vertex> listOfVertices = new List<Vertex>(FinalGraph.Vertices);
-            foreach (var item in FinalGraph.Vertices)
+            foreach (var item in FinalGraph.Vertices) // O(V)
             {
                 if (item.VertexStatus == "UP" && item.Edges.Count != 0)
                 {
@@ -311,7 +261,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
                     item.Visited = true;
 
-                    ReachableEdge(item.Edges, listOfVertices);
+                    ReachableEdge(item.Edges, listOfVertices); // O(V+E)
 
                     foreach (var vertices in FinalGraph.Vertices)
                     {
@@ -321,13 +271,14 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public void ReachableEdge(List<Edge> listOfEdges, List<Vertex> listOfVertices)
+        // ReachableEdge Method used to find what all vertices are reachable from a list of edges.
+        public void ReachableEdge(List<Edge> listOfEdges, List<Vertex> listOfVertices) // O(V+E)
         {
-            foreach (var edges in listOfEdges)
+            foreach (var edges in listOfEdges) // O(E)
             {
-                foreach (var vertices in listOfVertices)
+                foreach (var vertices in listOfVertices) // O(V)
                 {
-                    if (edges.To_Vertex == vertices.VertexName && vertices.Visited != true && vertices.VertexStatus != "DOWN" && edges.EdgeStatus != "DOWN")
+                    if (edges.To_Vertex == vertices.VertexName && !vertices.Visited && vertices.VertexStatus != "DOWN" && edges.EdgeStatus != "DOWN")
                     {
                         Console.WriteLine("  " + edges.To_Vertex);
 
@@ -339,29 +290,30 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public void Path(string from_vertex, string to_vertex)
+        // Path method used to find shortest path from a given source vertex to destination vertex using Dijikstra's algorithm.
+        // Using custom made priority queue for storing the path information.
+        public void Path(string from_vertex, string to_vertex) // O(V^2) worst case for dense graph. O(|V+E
         {
             bool nopath = false;
-            var cost = (float)0;
             var newcost = (float)0;
             var previous_vertex = new Vertex();
 
-            var source_vertex = FinalGraph.Vertices.Find(x => x.VertexName == from_vertex);
+            var source_vertex = FinalGraph.Vertices.Find(x => x.VertexName == from_vertex); // O(V)
 
             var destination_vertex = new Vertex();
 
             var priorityQueue = new PriorityQueue(source_vertex, FinalGraph);
 
-            priorityQueue.BuildQueueInitial((float)0.0, null);
+            priorityQueue.BuildQueueInitial((float)0.0, null); // O(V*E)
 
-            while (destination_vertex.VertexName != to_vertex)
+            while (destination_vertex.VertexName != to_vertex) // O(V) in worst case if not present.
             {
                 if (priorityQueue.PriorityQueue_List.Count == 0)
                 {
                     nopath = true;
                     break;
                 }
-                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName);
+                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName); 
 
                 var tempPriorityQueue = new PriorityQueue(destination_vertex, previous_vertex, FinalGraph);
 
@@ -371,14 +323,14 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 {
                     priorityQueue.PriorityQueue_List.Add(item);
                 }
-
             }
 
             if (!nopath)
             {
-                List<string> printPath = new List<string>();
-
-                printPath.Add(newcost.ToString("0.00"));
+                var printPath = new List<string>
+                {
+                    newcost.ToString("0.00")
+                };
 
                 while (destination_vertex.Parent_Vertex != null)
                 {
@@ -395,7 +347,6 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
 
                 Console.Write("\n");
-
 
                 // Making all explored edges and vertices unexplored
                 foreach (var vertex in FinalGraph.Vertices)
@@ -417,5 +368,11 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 vertex.Edges.Sort();
             }
         }
+
+        public void Sort_Vertex()
+        {
+            FinalGraph.Vertices.Sort();
+        }
+        #endregion
     }
 }
