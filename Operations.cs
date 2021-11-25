@@ -348,15 +348,15 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                 }
 
                 Console.Write("\n");
+            }
 
-                // Making all explored edges and vertices unexplored
-                foreach (var vertex in FinalGraph.Vertices)
-                {
-                    vertex.VertexExplored = false;
-                    vertex.Parent_Vertex = new Vertex();
-                    foreach (var edge in vertex.Edges)
-                        edge.EdgeExplored = false;
-                }
+            // Making all explored edges and vertices unexplored
+            foreach (var vertex in FinalGraph.Vertices)
+            {
+                vertex.VertexExplored = false;
+                vertex.Parent_Vertex = new Vertex();
+                foreach (var edge in vertex.Edges)
+                    edge.EdgeExplored = false;
             }
         }
 
