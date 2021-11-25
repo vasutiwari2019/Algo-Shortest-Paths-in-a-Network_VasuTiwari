@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
+    // This project file belongs to Vasu Tiwari
     // Main Driver class of the program. Contains functions for all the tasks.
     public class Operations
     {
@@ -292,7 +293,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 
         // Path method used to find shortest path from a given source vertex to destination vertex using Dijikstra's algorithm.
         // Using custom made priority queue for storing the path information.
-        public void Path(string from_vertex, string to_vertex) // O(V^2) worst case for dense graph. O(|V+E
+        public void Path(string from_vertex, string to_vertex) // O(V^2) worst case for dense graph. O(|V+E|logV) on average.   
         {
             bool nopath = false;
             var newcost = (float)0;
@@ -313,7 +314,7 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
                     nopath = true;
                     break;
                 }
-                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName); 
+                (destination_vertex, newcost, priorityQueue.PriorityQueue_List, previous_vertex) = priorityQueue.Return_MinCost_Vertex(previous_vertex.VertexName); // O(V*E) worst case
 
                 var tempPriorityQueue = new PriorityQueue(destination_vertex, previous_vertex, FinalGraph);
 
@@ -359,13 +360,14 @@ namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
             }
         }
 
-        public void Sort_Vertex_Edges()
+        // Used to sort the vertices and edges in alphabetically order
+        public void Sort_Vertex_Edges() // (V*ElogE + VlogV)
         {
-            FinalGraph.Vertices.Sort();
+            FinalGraph.Vertices.Sort(); // O(VlogV)
 
-            foreach (var vertex in FinalGraph.Vertices)
+            foreach (var vertex in FinalGraph.Vertices) // O(V)
             {
-                vertex.Edges.Sort();
+                vertex.Edges.Sort(); // O(ElogE)
             }
         }
 

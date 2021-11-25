@@ -3,15 +3,16 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Algo_Shortest_Paths_in_a_Network_VasuTiwari
 {
+    // This project file belongs to Vasu Tiwari
     // Edge Class to store the Edge variables for a particular vertex.
     public class Edge : IComparable<Edge>
     {
         #region Properties
 
-        // From_Vertex is used to store the tail vertex
+        // From_Vertex used to store the tail vertex
         public string From_Vertex { get; set; }
 
-        // To_Vertex is used to store the headvertex
+        // To_Vertex used to store the headvertex
         public string To_Vertex { get; set; }
 
         // Weight used to store the edge weight from tailvertex to headvertex
