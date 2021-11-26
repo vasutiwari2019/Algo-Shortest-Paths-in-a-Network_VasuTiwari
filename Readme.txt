@@ -51,6 +51,7 @@ Please make sure that you build the graph first using command "graph <file_name>
 For running the program in Linux.:
 The same process for building the program, the only difference is, a dll file will be created in Linux.
 Run the dll file and follow the same instructions.
+for running dll file: dotnet ShortestPath.dll
 
 
 Reachable Vertices:
